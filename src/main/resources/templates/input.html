@@ -1,14 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Indtast streamingforbrug</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
 </head>
 <body>
 
-<header class="logo">Logo</header>
-<header class="menu">Menu</header>
-<section class="input-stream"></section>
-
+<header class="top-container">
+    <section class="logo">Logo</section>
+    <section class="menu">Menu</section>
+</header>
+<article class="main-container">
+    Beregn for uge "uge-nummer"
+    <section class="stream-form">
+        <form th:action="@{'/input'}" method="post" id="time-form">
+            <select name="category">
+                <option value="" disabled selected>Vælg streaming type...</option>
+                <option value="MUSIC">Musik</option>
+                <option value="VIDEO">Film/Serier</option>
+                <option value="MOBILE">Mobil skærmtid</option>
+            </select>
+            <label>Timer</label>
+            <input type="text" name="hoursStreamed"/>
+        </form>
+        <button type="submit" form="time-form">Udregn</button>
+    </section>
+</article>
 </body>
 </html>
