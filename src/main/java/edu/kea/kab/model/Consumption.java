@@ -15,6 +15,6 @@ public class Consumption {
     @Enumerated(EnumType.STRING)
     private Categories category;
 
-    private Long hoursStreamed;
+    private double hoursStreamed;
 
 }
