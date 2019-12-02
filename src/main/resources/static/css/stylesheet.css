@@ -1,0 +1,43 @@
+/* import font ROBOTO */
+@import url('https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #B9F1D7;
+    padding: 0;
+}
+
+input{}
+select{}
+textarea{}
+
+.top-container {
+    display: grid;
+    grid-template-areas: 'logo burger';
+    background-color: #FF0000;
+}
+
+.logo {
+    grid-area: logo;
+    text-align: left;
+    background-color: #FFFF00;
+}
+
+.burger {
+    grid-area: burger;
+    text-align: right;
+    background-color: #00FF00;
+}
+
+.main-container {
+    background-color: #FF00FF;
+}
+
+.button {
+
+}
+
+.a {
+
+}
+
