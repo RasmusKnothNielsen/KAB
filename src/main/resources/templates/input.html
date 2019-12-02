@@ -2,17 +2,21 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Indtast streamingforbrug</title>
     <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
 
 <header class="top-container">
-    <section class="logo">Logo</section>
-    <section class="menu">Menu</section>
+    <section class="logo"><img src="/img/logo.png" alt="logo"/></section>
+    <section class="menu"><i class="material-icons md-48" style="font-size: 48px" >menu</i></section>
 </header>
 <article class="main-container">
-    Beregn for uge "uge-nummer"
+    <header class="??" th:text="'Beregn for uge '+${weeknumber} ">
+        Beregn for uge 49
+    </header>
     <section class="stream-form">
         <form th:action="@{'/input'}" method="post" id="time-form">
             <select name="category">
