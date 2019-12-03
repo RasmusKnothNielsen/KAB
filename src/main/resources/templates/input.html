@@ -20,25 +20,24 @@
     </header>
     <section class="stream-form">
         <form th:action="@{'/input'}" method="post" id="time-form">
-            <select name="category" id="type" onclick="ChangeCategory()">
+            <select name="category" id="type" onchange="ChangeCategory()">
                 <option value="" disabled selected>Vælg streaming type...</option>
                 <option value="MUSIC">Musik</option>
                 <option value="VIDEO">Film/Serier</option>
                 <option value="MOBILE">Mobil skærmtid</option>
             </select>
-            <label>Timer</label>
-            <input type="text" name="hoursStreamed"/>
             <div id="subcategory"></div>
             <div id="streamingtime"></div>
         </form>
-        <button type="submit" form="time-form">Beregn</button>
+        <div id="submitbutton"></div>
     </section>
 </article>
 
 <script>
 
     function ChangeCategory() {
-        var musicCategories = [
+        var categories = {};
+        categories['MUSIC'] = [
             ['Spotify', 'SPOTIFY'],
             ['Tidal', 'TIDAL'],
             ['Deezer', 'DEEZER'],
@@ -46,21 +45,21 @@
             ['Google Play Music', 'GOOGLE'],
             ['YouSee Music', 'YOUSEE'],
             ['Andet', 'MUSIC_OTHER']];
-        var videoCategories = [
-            ['Netflix','NETFLIX'],
-            ['HBO Nordic','HBO'],
-            ['TV 2 Play','TV2'],
-            ['Amazon Prime Video','PRIME'],
-            ['Viaplay','VIAPLAY'],
-            ['DR TV','DR'],
-            ['DPlay','DPLAY'],
-            ['C More','CMORE'],
-            ['Eurosport Player','EUROSPORT'],
-            ['Andet','VIDEO_OTHER']];
-        var mobileCategories = [
-            ['iPhone','IPHONE'],
-            ['Android','ANDROID'],
-            ['Andet','MOBILE_OTHER']];
+        categories['VIDEO'] = [
+            ['Netflix', 'NETFLIX'],
+            ['HBO Nordic', 'HBO'],
+            ['TV 2 Play', 'TV2'],
+            ['Amazon Prime Video', 'PRIME'],
+            ['Viaplay', 'VIAPLAY'],
+            ['DR TV', 'DR'],
+            ['DPlay', 'DPLAY'],
+            ['C More', 'CMORE'],
+            ['Eurosport Player', 'EUROSPORT'],
+            ['Andet', 'VIDEO_OTHER']];
+        categories['MOBILE'] = [
+            ['iPhone', 'IPHONE'],
+            ['Android', 'ANDROID'],
+            ['Andet', 'MOBILE_OTHER']];
         var subCategoryList = document.getElementById("subcategory");
         var streamingType = document.getElementById("type");
         var streamingTime = document.getElementById("streamingtime");
@@ -69,50 +68,26 @@
         while (subCategoryList.childElementCount > 0) {
             subCategoryList.removeChild(subCategoryList.childNodes[0]);
         }
-        if (selectedType == "MUSIC") {
-            var node = document.createElement("select");
-            node.setAttribute("onclick", "ChangeSubCategory()");
-            node.setAttribute("name", "subcategory");
-/*
-        <
-            option
-            value = ""
-            disabled
-            selected > Vælg
-            streaming
-            type
-        ...<
-            /option>
-            */
-            var option = new Option("Vælg udbyder...");
-            option.setAttribute("disabled","true");
-            option.setAttribute("selected","true");
-            node.options.add(option);
-            var i;
-            for (i = 0; i < musicCategories.length; i++) {
-                var option = new Option(musicCategories[i][0], musicCategories[i][1]);
-                node.options.add(option);
-            }
-            subCategoryList.appendChild(node);
+        while (streamingTime.childElementCount > 0) {
+            streamingTime.removeChild(streamingTime.childNodes[0]);
         }
-        if (selectedType == "VIDEO") {
-            var node = document.createElement("select");
-            node.setAttribute("onclick", "ChangeSubCategory()");
-            node.setAttribute("name", "subcategory");
-            var i;
-            for (i = 0; i < videoCategories.length; i++) {
-                var option = new Option(videoCategories[i], i);
-                node.options.add(option);
-            }
-            subCategoryList.appendChild(node);
+        var button = document.getElementById("submitbutton");
+        while(button.childElementCount > 0){
+            button.removeChild(button.childNodes[0]);
         }
-        if (selectedType == "MOBILE") {
-            var node = document.createElement("select");
-            node.setAttribute("onclick", "ChangeSubCategory()");
-            node.setAttribute("name", "hoursStreamed");
+        var node = document.createElement("select");
+        node.setAttribute("onchange", "ChangeSubCategory()");
+        node.setAttribute("name", "subcategory");
+        node.setAttribute("id", "subcategorylist");
+        var option = new Option("Vælg udbyder...");
+        option.setAttribute("disabled", "true");
+        option.setAttribute("selected", "true");
+        node.options.add(option);
+
+        if (categories[selectedType]) {
             var i;
-            for (i = 0; i < mobileCategories.length; i++) {
-                var option = new Option(mobileCategories[i], i);
+            for (i = 0; i < categories[selectedType].length; i++) {
+                var option = new Option(categories[selectedType][i][0], categories[selectedType][i][1]);
                 node.options.add(option);
             }
             subCategoryList.appendChild(node);
@@ -120,7 +95,30 @@
     }
 
     function ChangeSubCategory() {
+//        var subCategoryList = document.getElementById("subcategorylist");
+//        console.log(subCategoryList.selectedIndex);
+        var streamingTime = document.getElementById("streamingtime");
+//        var selectedSubCategory = subCategoryList.option[subCategoryList.selectedIndex].value;
+        while (streamingTime.childElementCount > 0) {
+            streamingTime.removeChild(streamingTime.childNodes[0]);
+        }
+        var nodeInput = document.createElement("input");
+        nodeInput.setAttribute("name", "streamingHours");
+        nodeInput.setAttribute("placeholder", "Antal timer");
+        streamingTime.appendChild(nodeInput);
 
+        var button = document.getElementById("submitbutton");
+        while(button.childElementCount > 0){
+            button.removeChild(button.childNodes[0]);
+        }
+
+        var nodeButton = document.createElement("button");
+        nodeButton.setAttribute("type","submit");
+        nodeButton.setAttribute("form","time-form");
+        nodeButton.innerText="Beregn";
+        button.appendChild(nodeButton);
+
+        nodeInput.focus();
     }
 </script>
 </body>
