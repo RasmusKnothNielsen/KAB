@@ -2,31 +2,121 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/stylesheet.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Indtast streamingforbrug</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="text/javascript" src="/js/jquery3.4.1.js"></script>
 </head>
 <body>
 
 <header class="top-container">
-    <section class="logo">Logo</section>
-    <section class="menu">Menu</section>
+    <section class="logo"><img src="/img/logo.png" alt="logo"/></section>
+    <section class="menu"><i class="material-icons md-48">menu</i></section>
 </header>
 <article class="main-container">
-    <h1>Beregn for uge "uge-nummer"</h1>
+    <header class="??" th:text="'Beregn for uge '+${weeknumber} ">
+        Beregn for uge 49
+    </header>
     <section class="stream-form">
         <form th:action="@{'/input'}" method="post" id="time-form">
-            <select name="category">
+            <select name="category" id="type" onchange="ChangeCategory()">
                 <option value="" disabled selected>Vælg streaming type...</option>
                 <option value="MUSIC">Musik</option>
                 <option value="VIDEO">Film/Serier</option>
                 <option value="MOBILE">Mobil skærmtid</option>
             </select>
-            <label>Timer</label>
-            <input type="text" name="hoursStreamed"/>
+            <div id="subcategory"></div>
+            <div id="streamingtime"></div>
         </form>
-        <button class="button-green" type="submit" form="time-form">Beregn</button>
+        <div id="submitbutton"></div>
     </section>
 </article>
 
+<script>
+
+    function ChangeCategory() {
+        var categories = {};
+        categories['MUSIC'] = [
+            ['Spotify', 'SPOTIFY'],
+            ['Tidal', 'TIDAL'],
+            ['Deezer', 'DEEZER'],
+            ['Apple Music', 'APPLE'],
+            ['Google Play Music', 'GOOGLE'],
+            ['YouSee Music', 'YOUSEE'],
+            ['Andet', 'MUSIC_OTHER']];
+        categories['VIDEO'] = [
+            ['Netflix', 'NETFLIX'],
+            ['HBO Nordic', 'HBO'],
+            ['TV 2 Play', 'TV2'],
+            ['Amazon Prime Video', 'PRIME'],
+            ['Viaplay', 'VIAPLAY'],
+            ['DR TV', 'DR'],
+            ['DPlay', 'DPLAY'],
+            ['C More', 'CMORE'],
+            ['Eurosport Player', 'EUROSPORT'],
+            ['Andet', 'VIDEO_OTHER']];
+        categories['MOBILE'] = [
+            ['iPhone', 'IPHONE'],
+            ['Android', 'ANDROID'],
+            ['Andet', 'MOBILE_OTHER']];
+        var subCategoryList = document.getElementById("subcategory");
+        var streamingType = document.getElementById("type");
+        var streamingTime = document.getElementById("streamingtime");
+        var selectedType = streamingType.options[streamingType.selectedIndex].value;
+        console.log(selectedType);
+        while (subCategoryList.childElementCount > 0) {
+            subCategoryList.removeChild(subCategoryList.childNodes[0]);
+        }
+        while (streamingTime.childElementCount > 0) {
+            streamingTime.removeChild(streamingTime.childNodes[0]);
+        }
+        var button = document.getElementById("submitbutton");
+        while(button.childElementCount > 0){
+            button.removeChild(button.childNodes[0]);
+        }
+        var node = document.createElement("select");
+        node.setAttribute("onchange", "ChangeSubCategory()");
+        node.setAttribute("name", "subcategory");
+        node.setAttribute("id", "subcategorylist");
+        var option = new Option("Vælg udbyder...");
+        option.setAttribute("disabled", "true");
+        option.setAttribute("selected", "true");
+        node.options.add(option);
+
+        if (categories[selectedType]) {
+            var i;
+            for (i = 0; i < categories[selectedType].length; i++) {
+                var option = new Option(categories[selectedType][i][0], categories[selectedType][i][1]);
+                node.options.add(option);
+            }
+            subCategoryList.appendChild(node);
+        }
+    }
+
+    function ChangeSubCategory() {
+        var streamingTime = document.getElementById("streamingtime");
+        while (streamingTime.childElementCount > 0) {
+            streamingTime.removeChild(streamingTime.childNodes[0]);
+        }
+        var nodeInput = document.createElement("input");
+        nodeInput.setAttribute("name", "streamingHours");
+        nodeInput.setAttribute("placeholder", "Antal timer");
+        streamingTime.appendChild(nodeInput);
+
+        var button = document.getElementById("submitbutton");
+        while(button.childElementCount > 0){
+            button.removeChild(button.childNodes[0]);
+        }
+
+        var nodeButton = document.createElement("button");
+        nodeButton.setAttribute("type","submit");
+        nodeButton.setAttribute("form","time-form");
+        nodeButton.innerText="Beregn";
+        button.appendChild(nodeButton);
+
+        nodeInput.focus();
+    }
+</script>
 </body>
 </html>
