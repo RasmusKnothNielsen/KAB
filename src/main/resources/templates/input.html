@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -12,7 +12,7 @@
     <section class="menu">Menu</section>
 </header>
 <article class="main-container">
-    Beregn for uge "uge-nummer"
+    <h1>Beregn for uge "uge-nummer"</h1>
     <section class="stream-form">
         <form th:action="@{'/input'}" method="post" id="time-form">
             <select name="category">
@@ -24,7 +24,7 @@
             <label>Timer</label>
             <input type="text" name="hoursStreamed"/>
         </form>
-        <button type="submit" form="time-form">Udregn</button>
+        <button class="button-green" type="submit" form="time-form">Beregn</button>
     </section>
 </article>
 
