@@ -1,5 +1,7 @@
 package edu.kea.kab.unittests;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import edu.kea.kab.model.Consumption;
 import edu.kea.kab.repository.ConsumptionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +25,16 @@ public class SaveInputTest {
     @Autowired
     ConsumptionRepository consumptionRepository;
 
+    private ObjectMapper mapper = new ObjectMapper();
+
+    //Test if a newly created Consumption object is saved to the consumption table
     @Test
     void canSaveInputToDatabase() throws Exception {
-        mvc.perform(post("/input").with(csrf().asHeader()).content().contentType(MediaType.))
+        mvc.perform(post("/input").with(csrf().asHeader())
+                .content(mapper.writeValueAsString(new Consumption())))
                 .andExpect(status().isOk());
     }
+
+
 
 }
