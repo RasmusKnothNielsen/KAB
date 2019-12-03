@@ -14,9 +14,7 @@ public class MainController {
     @GetMapping("/input")
     public String input(Model model) {
         Calendar calendar = new GregorianCalendar();
-        Date trialTime = new Date();
-        calendar.setTime(trialTime);
-        System.out.println(calendar.get(Calendar.WEEK_OF_YEAR));
+        calendar.setTime(new Date());
         model.addAttribute("weeknumber",calendar.get(Calendar.WEEK_OF_YEAR));
         return "input";
     }

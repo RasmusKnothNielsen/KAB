@@ -6,12 +6,13 @@
     <title>Indtast streamingforbrug</title>
     <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script type="text/javascript" src="/js/jquery.js"></script>
 </head>
 <body>
 
 <header class="top-container">
     <section class="logo"><img src="/img/logo.png" alt="logo"/></section>
-    <section class="menu"><i class="material-icons md-48" style="font-size: 48px" >menu</i></section>
+    <section class="menu"><i class="material-icons md-48">menu</i></section>
 </header>
 <article class="main-container">
     <header class="??" th:text="'Beregn for uge '+${weeknumber} ">
@@ -19,7 +20,7 @@
     </header>
     <section class="stream-form">
         <form th:action="@{'/input'}" method="post" id="time-form">
-            <select name="category">
+            <select name="category" id="type" onclick="ChangeCategory()">
                 <option value="" disabled selected>Vælg streaming type...</option>
                 <option value="MUSIC">Musik</option>
                 <option value="VIDEO">Film/Serier</option>
@@ -27,9 +28,100 @@
             </select>
             <label>Timer</label>
             <input type="text" name="hoursStreamed"/>
+            <div id="subcategory"></div>
+            <div id="streamingtime"></div>
         </form>
-        <button type="submit" form="time-form">Udregn</button>
+        <button type="submit" form="time-form">Beregn</button>
     </section>
 </article>
+
+<script>
+
+    function ChangeCategory() {
+        var musicCategories = [
+            ['Spotify', 'SPOTIFY'],
+            ['Tidal', 'TIDAL'],
+            ['Deezer', 'DEEZER'],
+            ['Apple Music', 'APPLE'],
+            ['Google Play Music', 'GOOGLE'],
+            ['YouSee Music', 'YOUSEE'],
+            ['Andet', 'MUSIC_OTHER']];
+        var videoCategories = [
+            ['Netflix','NETFLIX'],
+            ['HBO Nordic','HBO'],
+            ['TV 2 Play','TV2'],
+            ['Amazon Prime Video','PRIME'],
+            ['Viaplay','VIAPLAY'],
+            ['DR TV','DR'],
+            ['DPlay','DPLAY'],
+            ['C More','CMORE'],
+            ['Eurosport Player','EUROSPORT'],
+            ['Andet','VIDEO_OTHER']];
+        var mobileCategories = [
+            ['iPhone','IPHONE'],
+            ['Android','ANDROID'],
+            ['Andet','MOBILE_OTHER']];
+        var subCategoryList = document.getElementById("subcategory");
+        var streamingType = document.getElementById("type");
+        var streamingTime = document.getElementById("streamingtime");
+        var selectedType = streamingType.options[streamingType.selectedIndex].value;
+        console.log(selectedType);
+        while (subCategoryList.childElementCount > 0) {
+            subCategoryList.removeChild(subCategoryList.childNodes[0]);
+        }
+        if (selectedType == "MUSIC") {
+            var node = document.createElement("select");
+            node.setAttribute("onclick", "ChangeSubCategory()");
+            node.setAttribute("name", "subcategory");
+/*
+        <
+            option
+            value = ""
+            disabled
+            selected > Vælg
+            streaming
+            type
+        ...<
+            /option>
+            */
+            var option = new Option("Vælg udbyder...");
+            option.setAttribute("disabled","true");
+            option.setAttribute("selected","true");
+            node.options.add(option);
+            var i;
+            for (i = 0; i < musicCategories.length; i++) {
+                var option = new Option(musicCategories[i][0], musicCategories[i][1]);
+                node.options.add(option);
+            }
+            subCategoryList.appendChild(node);
+        }
+        if (selectedType == "VIDEO") {
+            var node = document.createElement("select");
+            node.setAttribute("onclick", "ChangeSubCategory()");
+            node.setAttribute("name", "subcategory");
+            var i;
+            for (i = 0; i < videoCategories.length; i++) {
+                var option = new Option(videoCategories[i], i);
+                node.options.add(option);
+            }
+            subCategoryList.appendChild(node);
+        }
+        if (selectedType == "MOBILE") {
+            var node = document.createElement("select");
+            node.setAttribute("onclick", "ChangeSubCategory()");
+            node.setAttribute("name", "hoursStreamed");
+            var i;
+            for (i = 0; i < mobileCategories.length; i++) {
+                var option = new Option(mobileCategories[i], i);
+                node.options.add(option);
+            }
+            subCategoryList.appendChild(node);
+        }
+    }
+
+    function ChangeSubCategory() {
+
+    }
+</script>
 </body>
 </html>
