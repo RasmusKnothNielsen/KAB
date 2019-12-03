@@ -4,7 +4,6 @@
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #B9F1D7;
-
 }
 
 .md-48 {
@@ -84,7 +83,22 @@ button {
     text-align: center;
 }
 
-.a {}
+.privacyLink {
+    position: fixed;
+    left: 50%;
+    bottom: 5px;
+    transform: translate(-50%, -50%);
+    margin: 0 auto;
+}
+
+a:link, a:visited {
+    color: black;
+    text-decoration: none;
+}
+
+a:hover, a:active {
+    text-decoration: underline;
+}
 
 select {
     width: 300px;
