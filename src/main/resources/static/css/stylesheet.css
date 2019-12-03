@@ -4,7 +4,7 @@
 body {
     font-family: 'Roboto', sans-serif;
     background-color: #B9F1D7;
-    padding: 0;
+
 }
 
 .md-48 {
@@ -12,40 +12,57 @@ body {
 }
 
 button {
-    border-radius: 8px;
+    border-radius: 4px;
     border: none;
     color: white;
     padding: 16px 32px;
+    width: 160px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
     font-weight: bold;
     margin: 4px 2px;
-    -webkit-transition-duration: 0.4s; /* Safari */
-    transition-duration: 0.4s;
     cursor: pointer;
 }
 
 .button-green {
+    margin-top: 50px;
     background-color: #63BF69;
-    border: 2px solid #63BF69;
+    transition: all 0.5s;
 }
 
-.button-green:hover {
-    background-color: #B9F1D7;
-    color: black;
+.button-green span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
 }
 
-h1 {
-
-    font-size: 32px;
-    font-weight: 400;
+.button-green span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
 }
 
-input{}
-select{}
-textarea{}
+.button-green:hover span {
+    padding-right: 25px;
+}
+
+.button-green:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+
+.main-header {
+    font-size: 48px;
+    font-weight: 500;
+    margin-top: 100px;
+    margin-bottom: 50px;
+}
 
 .top-container {
     display: grid;
@@ -67,7 +84,13 @@ textarea{}
     text-align: center;
 }
 
-.a {
+.a {}
 
+select {
+    width: 300px;
+    margin-bottom: 10px;
 }
 
+input{
+    width: 290px;
+}

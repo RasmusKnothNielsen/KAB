@@ -15,7 +15,7 @@
     <section class="menu"><i class="material-icons md-48">menu</i></section>
 </header>
 <article class="main-container">
-    <header class="??" th:text="'Beregn for uge '+${weeknumber} ">
+    <header class="main-header" th:text="'Beregn for uge '+${weeknumber} ">
         Beregn for uge 49
     </header>
     <section class="stream-form">
@@ -110,10 +110,15 @@
         }
 
         var nodeButton = document.createElement("button");
+        nodeButton.setAttribute("class","button-green");
         nodeButton.setAttribute("type","submit");
         nodeButton.setAttribute("form","time-form");
-        nodeButton.innerText="Beregn";
+        //nodeButton.innerText="Beregn";
         button.appendChild(nodeButton);
+
+        var nodeButtonText = document.createElement("span");
+        nodeButtonText.innerText="Beregn";
+        nodeButton.appendChild(nodeButtonText);
 
         nodeInput.focus();
     }
