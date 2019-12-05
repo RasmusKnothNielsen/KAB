@@ -36,7 +36,7 @@ public class InputControllerTest {
     void inputPageReturnInputView() throws Exception {
         mvc
                 .perform((get("/input")))
-                .andExpect(MockMvcResultMatchers.view().name("/input"));
+                .andExpect(MockMvcResultMatchers.view().name("input"));
     }
 
 
