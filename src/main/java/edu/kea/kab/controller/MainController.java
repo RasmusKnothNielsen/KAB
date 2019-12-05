@@ -22,7 +22,8 @@ public class MainController {
 
     @PostMapping("/input")
     public String inputFromUser(@ModelAttribute Consumption consumption) {
+        System.out.println(consumption.getCategory());
         consumptionRepository.save(consumption);
-        return "redirect:/input";
+        return "/input";
     }
 }
