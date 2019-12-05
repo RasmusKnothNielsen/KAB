@@ -110,10 +110,14 @@
         }
 
         var nodeButton = document.createElement("button");
+        nodeButton.setAttribute("class","button-green");
         nodeButton.setAttribute("type","submit");
         nodeButton.setAttribute("form","time-form");
-        nodeButton.innerText="Beregn";
         button.appendChild(nodeButton);
+
+        var nodeButtonText = document.createElement("span");
+        nodeButtonText.innerText="Beregn";
+        nodeButton.appendChild(nodeButtonText);
 
         nodeInput.focus();
     }
