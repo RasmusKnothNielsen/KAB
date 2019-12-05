@@ -43,7 +43,7 @@ public class SaveInputTest {
                 .param("hoursStreamed", "10")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isFound());
 
         // count is equal to 1 because it's a mock database and therefore the database is empty on startup.
         assertThat(consumptionRepository.count()).isEqualTo(1);
