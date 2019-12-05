@@ -45,6 +45,6 @@ public class MainController {
     @PostMapping("/input")
     public String inputFromUser(@ModelAttribute Consumption consumption) {
         consumptionRepository.save(consumption);
-        return "/input";
+        return "redirect:/input";
     }
 }
