@@ -2,7 +2,8 @@
 application.properties
 
 .idea
-.iml
+/target
+
 
 ### Java ###
 # Compiled class file
@@ -56,4 +57,4 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
-/target/classes/templates/input.html
+/target/*
