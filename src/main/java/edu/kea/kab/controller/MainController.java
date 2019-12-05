@@ -16,8 +16,12 @@ import java.util.GregorianCalendar;
 @Controller
 public class MainController {
 
-    @Autowired
     ConsumptionRepository consumptionRepository;
+
+    @Autowired
+    MainController(ConsumptionRepository consumptionRepository){
+        this.consumptionRepository=consumptionRepository;
+    }
 
     @GetMapping("/")
     public String index() {
