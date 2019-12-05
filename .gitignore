@@ -3,6 +3,7 @@ application.properties
 
 .idea
 /target
+.iml
 
 
 ### Java ###
