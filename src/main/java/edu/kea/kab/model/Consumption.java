@@ -12,21 +12,22 @@ public class Consumption {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    Double musicHours;
+    double musicHours;
 
-    Double videoHours;
+    double videoHours;
 
-    Double mobileHours;
+    double mobileHours;
 
-    Double hoursStreamed;
+    int week;
 
-    Byte week;
-
-    Integer year;
+    int year;
 
     String session;
 
+    /*
     @ManyToOne()
     @JoinColumn(name = "user_id")
     User user;
+
+     */
 }

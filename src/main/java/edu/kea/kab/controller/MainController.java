@@ -20,8 +20,8 @@ public class MainController {
     ConsumptionRepository consumptionRepository;
 
     @Autowired
-    MainController(ConsumptionRepository consumptionRepository){
-        this.consumptionRepository=consumptionRepository;
+    MainController(ConsumptionRepository consumptionRepository) {
+        this.consumptionRepository = consumptionRepository;
     }
 
     @GetMapping("/")
@@ -34,7 +34,7 @@ public class MainController {
     public String input(Model model) {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(new Date());
-        model.addAttribute("weeknumber",calendar.get(Calendar.WEEK_OF_YEAR));
+        model.addAttribute("weeknumber", calendar.get(Calendar.WEEK_OF_YEAR));
         return "input";
     }
 
@@ -45,7 +45,15 @@ public class MainController {
 
     @PostMapping("/input")
     public String inputFromUser(@ModelAttribute Consumption consumption) {
-       // String sessionId =RequestContextHolder.currentRequestAttributes().getSessionId();
+        String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date());
+        int week = calendar.get(Calendar.WEEK_OF_YEAR);
+
+        consumption.setSession(sessionId);
+        consumption.setYear(2019);
+        consumption.setWeek(week);
         consumptionRepository.save(consumption);
         return "redirect:/input";
     }
