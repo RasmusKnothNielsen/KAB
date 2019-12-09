@@ -7,6 +7,12 @@
     <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script type="text/javascript" src="/js/jquery3.4.1.js"></script>
+    <style>
+        #subcategory {
+            display: grid;
+            grid-template-columns: auto;
+        }
+    </style>
 </head>
 <body>
 
@@ -20,7 +26,10 @@
     </header>
     <section class="stream-form">
         <form th:action="@{'/input'}" method="post" id="time-form">
-            <select name="category" id="type" onchange="ChangeCategory()">
+            <input type="hidden" name="musicHours" value="0" />
+            <input type="hidden" name="videoHours" value="0" />
+            <input type="hidden" name="mobileHours" value="0" />
+            <select name="category" id="category" onchange="ChangeCategory()">
                 <option value="" disabled selected>Vælg streaming type...</option>
                 <option value="MUSIC">Musik</option>
                 <option value="VIDEO">Film/Serier</option>
@@ -60,13 +69,14 @@
             ['iPhone', 'IPHONE'],
             ['Android', 'ANDROID'],
             ['Andet', 'MOBILE_OTHER']];
-        var subCategoryList = document.getElementById("subcategory");
-        var streamingType = document.getElementById("type");
+        var streamingSubCategory = document.getElementById("subcategory");
+        var streamingCategory = document.getElementById("category");
         var streamingTime = document.getElementById("streamingtime");
-        var selectedType = streamingType.options[streamingType.selectedIndex].value;
-        console.log(selectedType);
-        while (subCategoryList.childElementCount > 0) {
-            subCategoryList.removeChild(subCategoryList.childNodes[0]);
+        var selectedCategory = streamingCategory.options[streamingCategory.selectedIndex].value;
+        console.log(selectedCategory);
+        // Remove childs
+        while (streamingSubCategory.childElementCount > 0) {
+            streamingSubCategory.removeChild(streamingSubCategory.childNodes[0]);
         }
         while (streamingTime.childElementCount > 0) {
             streamingTime.removeChild(streamingTime.childNodes[0]);
@@ -75,6 +85,28 @@
         while(button.childElementCount > 0){
             button.removeChild(button.childNodes[0]);
         }
+
+        if(categories[selectedCategory]) {
+            console.log(selectedCategory);
+            console.log(categories[selectedCategory]);
+            for (const category of categories[selectedCategory]) {
+                var labelNode = document.createElement("label");
+                labelNode.innerText = category[0];
+                labelNode.setAttribute("style","text-align: left;")
+
+                var inputNode = document.createElement("input");
+                inputNode.setAttribute("name", category[1]);
+                inputNode.setAttribute("value", "0");
+                inputNode.setAttribute("style","text-align: right;")
+
+                //labelNode.appendChild(inputNode);
+
+                streamingSubCategory.appendChild(labelNode);
+                streamingSubCategory.appendChild(inputNode);
+                console.log(category[0]);
+            }
+        }
+        /*
         var node = document.createElement("select");
         node.setAttribute("onchange", "ChangeSubCategory()");
         node.setAttribute("name", "subcategory");
@@ -84,14 +116,16 @@
         option.setAttribute("selected", "true");
         node.options.add(option);
 
-        if (categories[selectedType]) {
+        if (categories[selectedCategory]) {
             var i;
-            for (i = 0; i < categories[selectedType].length; i++) {
-                var option = new Option(categories[selectedType][i][0], categories[selectedType][i][1]);
+            for (i = 0; i < categories[selectedCategory].length; i++) {
+                var option = new Option(categories[selectedCategory][i][0], categories[selectedCategory][i][1]);
                 node.options.add(option);
             }
-            subCategoryList.appendChild(node);
+            streamingSubCategory.appendChild(node);
         }
+        */
+
     }
 
     function ChangeSubCategory() {
