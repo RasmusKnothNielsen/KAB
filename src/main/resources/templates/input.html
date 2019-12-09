@@ -26,9 +26,9 @@
     </header>
     <section class="stream-form">
         <form th:action="@{'/input'}" method="post" id="time-form">
-            <input type="hidden" name="musicHours" value="0" />
-            <input type="hidden" name="videoHours" value="0" />
-            <input type="hidden" name="mobileHours" value="0" />
+            <input type="hidden" name="musicHours" value="2" />
+            <input type="hidden" name="videoHours" value="3" />
+            <input type="hidden" name="mobileHours" value="5" />
             <select name="category" id="category" onchange="ChangeCategory()">
                 <option value="" disabled selected>Vælg streaming type...</option>
                 <option value="MUSIC">Musik</option>
@@ -38,7 +38,11 @@
             <div id="subcategory"></div>
             <div id="streamingtime"></div>
         </form>
-        <div id="submitbutton"></div>
+        <div id="okbutton"></div>
+        <div id="submitbutton">
+            <button class="button-green" type="submit" form="time-form">Beregn</button>
+
+        </div>
     </section>
 </article>
 
@@ -99,12 +103,23 @@
                 inputNode.setAttribute("value", "0");
                 inputNode.setAttribute("style","text-align: right;")
 
-                //labelNode.appendChild(inputNode);
-
                 streamingSubCategory.appendChild(labelNode);
                 streamingSubCategory.appendChild(inputNode);
-                console.log(category[0]);
             }
+
+            var okbutton = document.getElementById("okbutton");
+
+            var nodeButton = document.createElement("button");
+        nodeButton.setAttribute("class","button-green");
+            var nodeButtonText = document.createElement("span");
+            nodeButtonText.innerText="Gem";
+            nodeButton.appendChild(nodeButtonText);
+        okbutton.appendChild(nodeButton);
+
+
+
+
+
         }
         /*
         var node = document.createElement("select");
