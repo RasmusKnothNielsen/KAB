@@ -57,4 +57,9 @@ public class MainController {
         consumptionRepository.save(consumption);
         return "redirect:/input";
     }
+
+    @GetMapping("/adduser")
+    public String userCreationSite() {
+        return "adduser";
+    }
 }
