@@ -51,9 +51,10 @@ public class MainController {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(new Date());
         int week = calendar.get(Calendar.WEEK_OF_YEAR);
+        int year = calendar.get(Calendar.YEAR);
 
         consumption.setSession(sessionId);
-        consumption.setYear(2019);
+        consumption.setYear(year);
         consumption.setWeek(week);
         consumptionRepository.save(consumption);
         return "redirect:/input";

@@ -26,9 +26,9 @@
     </header>
     <section class="stream-form">
         <form th:action="@{'/input'}" method="post" id="time-form">
-            <input type="hidden" name="musicHours" value="2" />
-            <input type="hidden" name="videoHours" value="3" />
-            <input type="hidden" name="mobileHours" value="5" />
+            <input type="hidden" name="musicHours" value="2"/>
+            <input type="hidden" name="videoHours" value="3"/>
+            <input type="hidden" name="mobileHours" value="5"/>
             <select name="category" id="category" onchange="ChangeCategory()">
                 <option value="" disabled selected>Vælg streaming type...</option>
                 <option value="MUSIC">Musik</option>
@@ -47,6 +47,10 @@
 </article>
 
 <script>
+
+    var musicHours = -1;
+    var videoHours = -1;
+    var mobileHours = -1;
 
     function ChangeCategory() {
         var categories = {};
@@ -86,22 +90,22 @@
             streamingTime.removeChild(streamingTime.childNodes[0]);
         }
         var button = document.getElementById("submitbutton");
-        while(button.childElementCount > 0){
+        while (button.childElementCount > 0) {
             button.removeChild(button.childNodes[0]);
         }
 
-        if(categories[selectedCategory]) {
+        if (categories[selectedCategory]) {
             console.log(selectedCategory);
             console.log(categories[selectedCategory]);
             for (const category of categories[selectedCategory]) {
                 var labelNode = document.createElement("label");
                 labelNode.innerText = category[0];
-                labelNode.setAttribute("style","text-align: left;")
+                labelNode.setAttribute("style", "text-align: left;")
 
                 var inputNode = document.createElement("input");
                 inputNode.setAttribute("name", category[1]);
                 inputNode.setAttribute("value", "0");
-                inputNode.setAttribute("style","text-align: right;")
+                inputNode.setAttribute("style", "text-align: right;")
 
                 streamingSubCategory.appendChild(labelNode);
                 streamingSubCategory.appendChild(inputNode);
@@ -110,14 +114,12 @@
             var okbutton = document.getElementById("okbutton");
 
             var nodeButton = document.createElement("button");
-        nodeButton.setAttribute("class","button-green");
+            nodeButton.setAttribute("class", "button-green");
+            nodeButton.setAttribute("onclick", "ClickOK()");
             var nodeButtonText = document.createElement("span");
-            nodeButtonText.innerText="Gem";
+            nodeButtonText.innerText = "Gem";
             nodeButton.appendChild(nodeButtonText);
-        okbutton.appendChild(nodeButton);
-
-
-
+            okbutton.appendChild(nodeButton);
 
 
         }
@@ -154,21 +156,44 @@
         streamingTime.appendChild(nodeInput);
 
         var button = document.getElementById("submitbutton");
-        while(button.childElementCount > 0){
+        while (button.childElementCount > 0) {
             button.removeChild(button.childNodes[0]);
         }
 
         var nodeButton = document.createElement("button");
-        nodeButton.setAttribute("class","button-green");
-        nodeButton.setAttribute("type","submit");
-        nodeButton.setAttribute("form","time-form");
+        nodeButton.setAttribute("class", "button-green");
+        nodeButton.setAttribute("type", "submit");
+        nodeButton.setAttribute("form", "time-form");
         button.appendChild(nodeButton);
 
         var nodeButtonText = document.createElement("span");
-        nodeButtonText.innerText="Beregn";
+        nodeButtonText.innerText = "Beregn";
         nodeButton.appendChild(nodeButtonText);
 
         nodeInput.focus();
+    }
+
+    function ClickOK() {
+        var streamingCategory = document.getElementById("category");
+//        var streamingTime = document.getElementById("streamingtime");
+        var selectedCategory = streamingCategory.options[streamingCategory.selectedIndex].value;
+
+        var streamingSubCategory = document.getElementById("subcategory");
+
+        var totalHours = 0;
+
+        for (const a of streamingSubCategory.children) {
+            if (a.tagName == "INPUT") {
+                totalHours = totalHours + parseInt(a.value);
+            }
+        }
+        console.log(totalHours);
+
+
+        if (selectedCategory == "VIDEO") {
+
+        }
+
     }
 </script>
 </body>
