@@ -11,6 +11,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -39,8 +43,9 @@ public class SaveInputTest {
         // .param() is the object parameter
         mvc.perform(post("/input").with(csrf().asHeader())
                 .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-                .param("category", "VIDEO")
-                .param("hoursStreamed", "10")
+                .param("videoHours", "2")
+                .param("musicHours", "3")
+                .param("mobileHours", "5")
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isFound());
@@ -58,12 +63,16 @@ public class SaveInputTest {
         assertThat(savedConsumptions).isNotNull();
 
         // compare the object to the original saved object
-        assertThat(savedConsumptions.getCategory()).isEqualTo(Categories.VIDEO);
-        assertThat(savedConsumptions.getHoursStreamed()).isEqualTo(10);
+        assertThat(savedConsumptions.getVideoHours()).isEqualTo(2.0);
+        assertThat(savedConsumptions.getMusicHours()).isEqualTo(3.0);
+        assertThat(savedConsumptions.getMobileHours()).isEqualTo(5.0);
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date());
+        int week = calendar.get(Calendar.WEEK_OF_YEAR);
+        assertThat(savedConsumptions.getWeek()).isEqualTo(week);
+        int year = calendar.get(Calendar.YEAR);
+        assertThat(savedConsumptions.getYear()).isEqualTo(year);
+
     }
-
-
-
-
-
 }
