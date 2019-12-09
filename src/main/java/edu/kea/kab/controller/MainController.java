@@ -71,4 +71,9 @@ public class MainController {
         return "/adduser";
     }
 
+
+    @GetMapping("/presentationofusage")
+    public String getPresentationOfUsage() {
+        return "presentationofusage";
+    }
 }
