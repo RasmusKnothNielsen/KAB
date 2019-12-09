@@ -24,10 +24,7 @@ public class Consumption {
 
     String session;
 
-    /*
     @ManyToOne()
     @JoinColumn(name = "user_id")
     User user;
-
-     */
 }
