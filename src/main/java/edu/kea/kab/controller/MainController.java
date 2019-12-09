@@ -52,4 +52,9 @@ public class MainController {
     public String userCreationSite() {
         return "adduser";
     }
+
+    @GetMapping("/presentationofusage")
+    public String getPresentationOfUsage() {
+        return "presentationofusage";
+    }
 }
