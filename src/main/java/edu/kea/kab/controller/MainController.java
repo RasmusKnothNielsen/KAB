@@ -1,7 +1,9 @@
 package edu.kea.kab.controller;
 
 import edu.kea.kab.model.Consumption;
+import edu.kea.kab.model.User;
 import edu.kea.kab.repository.ConsumptionRepository;
+import edu.kea.kab.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -17,18 +19,17 @@ import java.util.GregorianCalendar;
 @Controller
 public class MainController {
 
+    @Autowired
     ConsumptionRepository consumptionRepository;
 
     @Autowired
-    MainController(ConsumptionRepository consumptionRepository){
-        this.consumptionRepository=consumptionRepository;
-    }
+    UserService userService;
+
 
     @GetMapping("/")
     public String index() {
         return "index";
     }
-
 
     @GetMapping("/input")
     public String input(Model model) {
@@ -62,6 +63,14 @@ public class MainController {
     public String userCreationSite() {
         return "adduser";
     }
+
+    // add a new user to the users table
+    @PostMapping("/adduser")
+    public String addUser(User user) {
+        userService.addUser(user);
+        return "/adduser";
+    }
+
 
     @GetMapping("/presentationofusage")
     public String getPresentationOfUsage() {
