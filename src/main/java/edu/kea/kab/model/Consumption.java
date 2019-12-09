@@ -24,9 +24,6 @@ public class Consumption {
 
     String session;
 
-    @Enumerated(EnumType.STRING)
-    private Category category;
-
     @ManyToOne()
     @JoinColumn(name = "user_id")
     User user;

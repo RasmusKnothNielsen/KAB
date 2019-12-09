@@ -1,6 +1,5 @@
 package edu.kea.kab.unittests;
 
-import edu.kea.kab.model.Category;
 import edu.kea.kab.model.Consumption;
 import edu.kea.kab.repository.ConsumptionRepository;
 import org.junit.jupiter.api.Test;
@@ -66,8 +65,6 @@ public class SaveInputTest {
         assertThat(savedConsumptions.getVideoHours()).isEqualTo(2.0);
         assertThat(savedConsumptions.getMusicHours()).isEqualTo(3.0);
         assertThat(savedConsumptions.getMobileHours()).isEqualTo(5.0);
-        assertThat(savedConsumptions.getCategory()).isEqualTo(Category.VIDEO);
-        assertThat(savedConsumptions.getHoursStreamed()).isEqualTo(10);
 
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(new Date());
