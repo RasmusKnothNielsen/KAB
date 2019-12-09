@@ -2,6 +2,7 @@ package edu.kea.kab.unittests;
 
 import edu.kea.kab.controller.MainController;
 import edu.kea.kab.repository.ConsumptionRepository;
+import edu.kea.kab.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -21,6 +22,9 @@ public class InputControllerTest {
 
     @MockBean
     ConsumptionRepository consumptionRepository;
+
+    @MockBean
+    UserService userService;
 
     @Test
     void canLoadInputPage() throws Exception{
