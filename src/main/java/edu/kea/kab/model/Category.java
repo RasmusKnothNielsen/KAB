@@ -1,5 +1,5 @@
 package edu.kea.kab.model;
 
-public enum Categories {
+public enum Category {
     MUSIC, VIDEO, MOBILE
 }

@@ -1,20 +1,21 @@
 package edu.kea.kab.model;
 
 import lombok.Data;
-
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Data
 @Entity
-public class Consumption {
+@Table(name = "authorizations")
+public class Authorization implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Enumerated(EnumType.STRING)
-    private Category category;
+    private Role role;
 
-    private double hoursStreamed;
+    private Long userId;
 
 }

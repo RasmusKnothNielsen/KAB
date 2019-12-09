@@ -1,6 +1,6 @@
 package edu.kea.kab.unittests;
 
-import edu.kea.kab.model.Categories;
+import edu.kea.kab.model.Category;
 import edu.kea.kab.model.Consumption;
 import edu.kea.kab.repository.ConsumptionRepository;
 import org.junit.jupiter.api.Test;
@@ -58,7 +58,7 @@ public class SaveInputTest {
         assertThat(savedConsumptions).isNotNull();
 
         // compare the object to the original saved object
-        assertThat(savedConsumptions.getCategory()).isEqualTo(Categories.VIDEO);
+        assertThat(savedConsumptions.getCategory()).isEqualTo(Category.VIDEO);
         assertThat(savedConsumptions.getHoursStreamed()).isEqualTo(10);
     }
 
