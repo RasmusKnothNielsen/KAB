@@ -18,6 +18,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/img/**").permitAll()
                 .antMatchers("/input").permitAll()
                 .antMatchers("/").permitAll()
+                .antMatchers("/adduser").permitAll()
                 .anyRequest().authenticated()
                 ;
     }

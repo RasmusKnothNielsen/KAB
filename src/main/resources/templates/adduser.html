@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Profile</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<header class="top-container">
+    <section class="logo"><img src="/img/logo.png" alt="logo"/></section>
+    <section class="menu"><i class="material-icons md-48">menu</i></section>
+</header>
+<article class="main-container">
+    <header class="main-header">
+        Opret Profil
+    </header>
+
+    <main class="add-user-main">
+        <form name="form-login" th:action="@{'/adduser'}" method="post">
+            <input type="hidden" value="1" name="enabled"/>
+
+            <input class="inputfield" type="text" name="username"
+                   placeholder="Desired username" required/>
+            <br>
+            <input class="inputfield" type="password" name="password"
+                   placeholder="Password" required/>
+            <br>
+            <button class="btn button-green" type="submit">Create account</button>
+        </form>
+    </main>
+
+    <a href="/privacy" class="privacyLink">Privacy</a>
+</article>
+
+</body>
+</html>
