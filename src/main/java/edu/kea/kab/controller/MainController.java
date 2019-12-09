@@ -18,15 +18,12 @@ import java.util.GregorianCalendar;
 @Controller
 public class MainController {
 
+    @Autowired
     ConsumptionRepository consumptionRepository;
 
     @Autowired
     UserService userService;
 
-    @Autowired
-    MainController(ConsumptionRepository consumptionRepository){
-        this.consumptionRepository=consumptionRepository;
-    }
 
     @GetMapping("/")
     public String index() {
@@ -54,7 +51,7 @@ public class MainController {
     }
 
     // add a new user to the users table
-    @PostMapping("adduser")
+    @PostMapping("/adduser")
     public String addUser(User user) {
         userService.addUser(user);
         return "/adduser";
