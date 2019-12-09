@@ -1,6 +1,5 @@
 package edu.kea.kab.model;
 
-
 import lombok.Data;
 
 import javax.persistence.*;
