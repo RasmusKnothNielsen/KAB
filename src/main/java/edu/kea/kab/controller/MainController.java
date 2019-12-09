@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.context.request.RequestContextHolder;
 
 import java.util.Calendar;
 import java.util.Date;
@@ -44,6 +45,15 @@ public class MainController {
 
     @PostMapping("/input")
     public String inputFromUser(@ModelAttribute Consumption consumption) {
+        String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date());
+        int week = calendar.get(Calendar.WEEK_OF_YEAR);
+
+        consumption.setSession(sessionId);
+        consumption.setYear(2019);
+        consumption.setWeek(week);
         consumptionRepository.save(consumption);
         return "redirect:/input";
     }
