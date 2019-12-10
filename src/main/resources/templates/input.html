@@ -41,9 +41,6 @@
         <div id="okbutton"></div>
         <div id="totalvalues"></div>
         <div id="submitbutton">
-            <!--
-            <button class="button-green" type="submit" form="time-form">Beregn</button>
--->
         </div>
     </section>
 </article>
@@ -110,7 +107,6 @@
                 streamingSubCategory.appendChild(divNode);
             }
 
-
             var nodeButton = document.createElement("button");
             nodeButton.setAttribute("class", "button-green");
             nodeButton.setAttribute("onclick", "ClickOK()");
@@ -118,81 +114,35 @@
             nodeButtonText.innerText = "Gem";
             nodeButton.appendChild(nodeButtonText);
             okbutton.appendChild(nodeButton);
-
-
         }
-        /*
-        var node = document.createElement("select");
-        node.setAttribute("onchange", "ChangeSubCategory()");
-        node.setAttribute("name", "subcategory");
-        node.setAttribute("id", "subcategorylist");
-        var option = new Option("Vælg udbyder...");
-        option.setAttribute("disabled", "true");
-        option.setAttribute("selected", "true");
-        node.options.add(option);
-
-        if (categories[selectedCategory]) {
-            var i;
-            for (i = 0; i < categories[selectedCategory].length; i++) {
-                var option = new Option(categories[selectedCategory][i][0], categories[selectedCategory][i][1]);
-                node.options.add(option);
-            }
-            streamingSubCategory.appendChild(node);
-        }
-        */
-
     }
 
     function updateTotalValues() {
         var totalValues = removeChildrenById("totalvalues");
-        var headLine = "Forbrug:";
-        var videoLine = "Video: "+ (videoHours >= 0 ? videoHours + " timer." : "---");
-        var musicLine = "Musik: "+ (musicHours >= 0 ? musicHours + " timer." : "---");
-        var mobileLine = "Mobil: "+ (mobileHours >= 0 ? mobileHours + " timer." : "---");
-
-        var element1 = createValueElement(headLine);
-        var element2 = createValueElement(videoLine);
-        var element3 = createValueElement(musicLine);
-        var element4 = createValueElement(mobileLine);
-
-        totalValues.appendChild(element1);
-        totalValues.appendChild(element2);
-        totalValues.appendChild(element3);
-        totalValues.appendChild(element4);
+        var lines = [
+            "Forbrug:",
+            "Video: " + (videoHours >= 0 ? videoHours + " timer." : "---"),
+            "Musik: " + (musicHours >= 0 ? musicHours + " timer." : "---"),
+            "Mobil: " + (mobileHours >= 0 ? mobileHours + " timer." : "---")
+        ];
+        lines.forEach(function (line) {
+            totalValues.appendChild(createValueElement(line))
+        });
     }
 
-    function createValueElement(line){
+    function createValueElement(line) {
         var lineElement = document.createElement("div");
-        lineElement.innerText=line;
+        lineElement.innerText = line;
         return lineElement;
     }
 
-    function updateTotalFormValues(){
-        if(videoHours>=0)
-            document.getElementsByName("videoHours")[0].setAttribute("value",videoHours);
-        if(musicHours>=0)
-            document.getElementsByName("musicHours")[0].setAttribute("value",musicHours);
-        if(mobileHours>=0)
-            document.getElementsByName("mobileHours")[0].setAttribute("value",mobileHours);
-    }
-
-    function ChangeSubCategory() {
-        var streamingTime = document.getElementById("streamingtime");
-        while (streamingTime.childElementCount > 0) {
-            streamingTime.removeChild(streamingTime.childNodes[0]);
-        }
-        var nodeInput = document.createElement("input");
-        nodeInput.setAttribute("name", "hoursStreamed");
-        nodeInput.setAttribute("placeholder", "Antal timer");
-        streamingTime.appendChild(nodeInput);
-
-        removeSubmitButton();
-        createSubmitButton().focus();
-
-    }
-
-    function removeSubmitButton() {
-        return removeChildrenById("submitbutton");
+    function updateTotalFormValues() {
+        if (videoHours >= 0)
+            document.getElementsByName("videoHours")[0].setAttribute("value", videoHours);
+        if (musicHours >= 0)
+            document.getElementsByName("musicHours")[0].setAttribute("value", musicHours);
+        if (mobileHours >= 0)
+            document.getElementsByName("mobileHours")[0].setAttribute("value", mobileHours);
     }
 
     function removeChildrenById(elementId) {
@@ -209,21 +159,15 @@
 
     function ClickOK() {
         var streamingCategory = document.getElementById("category");
-//        var streamingTime = document.getElementById("streamingtime");
         var selectedCategory = streamingCategory.options[streamingCategory.selectedIndex].value;
-
         var streamingSubCategory = document.getElementById("subcategory");
-
         var totalHours = 0.0;
-
         var i = 0;
-
 
         var button = document.getElementById("submitbutton");
         while (button.childElementCount > 0) {
             button.removeChild(button.childNodes[0]);
         }
-
 
         for (const a of streamingSubCategory.children) {
             var divNode = a.lastChild;
@@ -233,22 +177,22 @@
                 i++;
             }
         }
-        console.log(totalHours);
-
-
-        if (selectedCategory == "VIDEO") {
-            videoHours = totalHours;
-        } else if (selectedCategory == "MUSIC") {
-            musicHours = totalHours;
-        } else if (selectedCategory == "MOBILE") {
-            mobileHours = totalHours;
+        switch (selectedCategory) {
+            case "VIDEO":
+                videoHours = totalHours;
+                break;
+            case "MUSIC":
+                musicHours = totalHours;
+                break;
+            case "MOBILE":
+                mobileHours = totalHours;
         }
-        if (videoHours >= 0 && musicHours >= 0 && mobileHours >= 0) {
-            createSubmitButton();
-        }
+
         updateTotalValues();
         updateTotalFormValues();
 
+        if (videoHours >= 0 && musicHours >= 0 && mobileHours >= 0)
+            createSubmitButton();
     }
 
     function createSubmitButton() {
