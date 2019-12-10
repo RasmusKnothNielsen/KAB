@@ -84,6 +84,9 @@ button {
     text-align: center;
 }
 
+.newUserLink {
+    font-size: 10px;
+}
 .privacyLink {
     position: fixed;
     left: 50%;
