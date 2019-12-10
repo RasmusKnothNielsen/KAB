@@ -1,6 +1,5 @@
 package edu.kea.kab.unittests;
 
-import edu.kea.kab.model.Categories;
 import edu.kea.kab.model.Consumption;
 import edu.kea.kab.repository.ConsumptionRepository;
 import org.junit.jupiter.api.Test;
