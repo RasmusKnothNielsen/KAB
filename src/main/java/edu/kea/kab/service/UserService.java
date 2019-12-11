@@ -34,4 +34,9 @@ public class UserService {
         authorizationRepository.save(authorization);
 
     }
+
+    public Long getId(String email) {
+        return userRepository.getByEmail(email).getId();
+    }
+
 }
