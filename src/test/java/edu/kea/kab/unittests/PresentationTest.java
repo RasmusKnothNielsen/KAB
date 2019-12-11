@@ -1,27 +1,22 @@
 package edu.kea.kab.unittests;
 
-import edu.kea.kab.controller.MainController;
 import edu.kea.kab.model.Consumption;
 import edu.kea.kab.repository.ConsumptionRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.request.RequestContextHolder;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.GregorianCalendar;
+import javax.transaction.Transactional;
 import java.util.Iterator;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,7 +24,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
-public class presentationTest {
+@Transactional
+public class PresentationTest {
 
     @Autowired
     MockMvc mvc;
@@ -45,7 +41,7 @@ public class presentationTest {
         String stringSessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
 
         // count is equal to 0 because it's a mock database and therefore the database is empty on startup.
-        assertThat(consumptionRepository.count()).isEqualTo(0);
+        long count= consumptionRepository.count();
 
         // Run the controller method "/input"
         // .param() is the object parameter
@@ -60,7 +56,7 @@ public class presentationTest {
                 .andExpect(status().is3xxRedirection());
 
         // count is equal to 1 because it's a mock database and therefore the database is empty on startup.
-        assertThat(consumptionRepository.count()).isEqualTo(1);
+        assertThat(consumptionRepository.count()).isEqualTo(count+1);
 
 
         // Pull the consumption object from the database
