@@ -34,9 +34,6 @@ public class presentationTest {
     @Autowired
     MockMvc mvc;
 
-    //@MockBean
-    //MainController mainController;
-
     @Autowired
     ConsumptionRepository consumptionRepository;
 

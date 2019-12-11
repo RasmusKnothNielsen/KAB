@@ -9,9 +9,6 @@ public class KabApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(KabApplication.class, args);
-
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        System.out.println(encoder.encode("hunter2"));
     }
 
 }

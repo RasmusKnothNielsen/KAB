@@ -26,9 +26,10 @@ public class PageLoaderTest {
 
 
     @Test
-    void canLoadAddUserPage() throws Exception{
+    void canLoadAddUserPage() throws Exception
+    {
         mvc
-                .perform(get("/presentationofusage"))
+                .perform(get("/results"))
                 .andExpect(status().isOk());
     }
 }

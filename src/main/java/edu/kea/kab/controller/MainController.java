@@ -15,7 +15,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.Optional;
 
 @Controller
 public class MainController {
@@ -73,24 +72,24 @@ public class MainController {
     }
 
 
-    @GetMapping("/presentationofusage")
-    public String getPresentationOfUsage(Model model) {
+    @GetMapping("/results")
+    public String getPresentationOfUsage(Model model)
+    {
 
-        // TODO delete when tests are done and SessionId/input is implemented
-        Long sessionId = Long.valueOf(2);
-        // TODO: uncomment when ready for deploy
-        //String stringSessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
-        //Long sessionId = Long.valueOf(stringSessionId);
-        Optional<Consumption> consumptionOptional = consumptionRepository.findById(sessionId);
-        System.out.println(consumptionOptional);
-        Consumption consumption = consumptionOptional.get();
+        String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
+        Consumption consumption = consumptionRepository.findBySession(sessionId);
+        System.out.println(consumption);
 
+        if (consumption == null)
+        {
+            return "redirect:/";
+        }
         // Convert hours of streaming into km in diesel car
         double videoConsumption = consumption.getVideoHours() * 100;
         double musicConsumption = consumption.getMusicHours() * 10;
         double mobileConsumption = consumption.getMobileHours() * 5;
         double sum = videoConsumption + mobileConsumption + mobileConsumption;
         model.addAttribute("consumption", sum);
-        return "presentationofusage";
+        return "results";
     }
 }
