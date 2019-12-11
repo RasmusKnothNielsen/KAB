@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ConsumptionRepository extends CrudRepository<Consumption, Long> {
+
+    public Consumption findByUserId(Long id);
+
+    public Consumption findBySession(String session);
 }
