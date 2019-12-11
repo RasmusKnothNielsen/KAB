@@ -7,6 +7,12 @@
     <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script type="text/javascript" src="/js/jquery3.4.1.js"></script>
+    <style>
+        #subcategory {
+            display: grid;
+            grid-template-columns: auto;
+        }
+    </style>
 </head>
 <body>
 
@@ -20,107 +26,206 @@
     </header>
     <section class="stream-form">
         <form th:action="@{'/input'}" method="post" id="time-form">
-            <select name="category" id="type" onchange="ChangeCategory()">
+            <input type="hidden" name="musicHours" value="0"/>
+            <input type="hidden" name="videoHours" value="0"/>
+            <input type="hidden" name="mobileHours" value="0"/>
+            <select name="category" id="category" onchange="ChangeCategory()">
                 <option value="" disabled selected>Vælg streaming type...</option>
-                <option value="MUSIC">Musik</option>
                 <option value="VIDEO">Film/Serier</option>
+                <option value="MUSIC">Musik</option>
                 <option value="MOBILE">Mobil skærmtid</option>
             </select>
             <div id="subcategory"></div>
             <div id="streamingtime"></div>
         </form>
-        <div id="submitbutton"></div>
+        <div id="okbutton"></div>
+        <div id="totalvalues"></div>
+        <div id="submitbutton">
+        </div>
     </section>
 </article>
 
 <script>
 
-    function ChangeCategory() {
-        var categories = {};
-        categories['MUSIC'] = [
-            ['Spotify', 'SPOTIFY'],
-            ['Tidal', 'TIDAL'],
-            ['Deezer', 'DEEZER'],
-            ['Apple Music', 'APPLE'],
-            ['Google Play Music', 'GOOGLE'],
-            ['YouSee Music', 'YOUSEE'],
-            ['Andet', 'MUSIC_OTHER']];
-        categories['VIDEO'] = [
-            ['Netflix', 'NETFLIX'],
-            ['HBO Nordic', 'HBO'],
-            ['TV 2 Play', 'TV2'],
-            ['Amazon Prime Video', 'PRIME'],
-            ['Viaplay', 'VIAPLAY'],
-            ['DR TV', 'DR'],
-            ['DPlay', 'DPLAY'],
-            ['C More', 'CMORE'],
-            ['Eurosport Player', 'EUROSPORT'],
-            ['Andet', 'VIDEO_OTHER']];
-        categories['MOBILE'] = [
-            ['iPhone', 'IPHONE'],
-            ['Android', 'ANDROID'],
-            ['Andet', 'MOBILE_OTHER']];
-        var subCategoryList = document.getElementById("subcategory");
-        var streamingType = document.getElementById("type");
-        var streamingTime = document.getElementById("streamingtime");
-        var selectedType = streamingType.options[streamingType.selectedIndex].value;
-        console.log(selectedType);
-        while (subCategoryList.childElementCount > 0) {
-            subCategoryList.removeChild(subCategoryList.childNodes[0]);
-        }
-        while (streamingTime.childElementCount > 0) {
-            streamingTime.removeChild(streamingTime.childNodes[0]);
-        }
-        var button = document.getElementById("submitbutton");
-        while(button.childElementCount > 0){
-            button.removeChild(button.childNodes[0]);
-        }
-        var node = document.createElement("select");
-        node.setAttribute("onchange", "ChangeSubCategory()");
-        node.setAttribute("name", "subcategory");
-        node.setAttribute("id", "subcategorylist");
-        var option = new Option("Vælg udbyder...");
-        option.setAttribute("disabled", "true");
-        option.setAttribute("selected", "true");
-        node.options.add(option);
+    var musicHours = -1;
+    var videoHours = -1;
+    var mobileHours = -1;
 
-        if (categories[selectedType]) {
-            var i;
-            for (i = 0; i < categories[selectedType].length; i++) {
-                var option = new Option(categories[selectedType][i][0], categories[selectedType][i][1]);
-                node.options.add(option);
+    var categories = {};
+    categories['MUSIC'] = [
+        ['Spotify', 'SPOTIFY', 0],
+        ['Tidal', 'TIDAL', 0],
+        ['Deezer', 'DEEZER', 0],
+        ['Apple Music', 'APPLE', 0],
+        ['Google Play Music', 'GOOGLE', 0],
+        ['YouSee Music', 'YOUSEE', 0],
+        ['Andet', 'MUSIC_OTHER', 0]];
+    categories['VIDEO'] = [
+        ['Netflix', 'NETFLIX', 0],
+        ['HBO Nordic', 'HBO', 0],
+        ['TV 2 Play', 'TV2', 0],
+        ['Amazon Prime Video', 'PRIME', 0],
+        ['Viaplay', 'VIAPLAY', 0],
+        ['DR TV', 'DR', 0],
+        ['DPlay', 'DPLAY', 0],
+        ['C More', 'CMORE', 0],
+        ['Eurosport Player', 'EUROSPORT', 0],
+        ['Andet', 'VIDEO_OTHER', 0]];
+    categories['MOBILE'] = [
+        ['iPhone', 'IPHONE', 0],
+        ['Android', 'ANDROID', 0],
+        ['Andet', 'MOBILE_OTHER', 0]];
+
+    updateTotalValues();
+
+    function ChangeCategory() {
+
+        var streamingSubCategory = removeChildrenById("subcategory");
+        var streamingCategory = document.getElementById("category");
+        var streamingTime = removeChildrenById("streamingtime");
+        var selectedCategory = streamingCategory.options[streamingCategory.selectedIndex].value;
+
+        var okbutton = removeChildrenById("okbutton");
+
+        // <table> <tr> <td>spotify</td> <td>inputbox + timer</td> </tr> </table>
+        if (categories[selectedCategory]) {
+
+            var nodeTable = document.createElement("table");
+            nodeTable.setAttribute("width","400");
+            nodeTable.setAttribute("style","margin-left: auto; margin-right: auto;");
+
+            for (const category of categories[selectedCategory]) {
+
+                var nodeRow = document.createElement("tr");
+
+                var nodeTDLabel = document.createElement("td");
+                <!--
+                var labelNode = document.createElement("label");
+                labelNode.innerText = category[0];
+                labelNode.setAttribute("style", "text-align: left;");
+                nodeTDLabel.appendChild(labelNode);
+                -->
+                nodeTDLabel.innerText=category[0];
+                nodeTDLabel.setAttribute("style","text-align:left;")
+
+                var nodeTDInput = document.createElement("td");
+                var inputNode = document.createElement("input");
+                inputNode.setAttribute("name", category[1]);
+                inputNode.setAttribute("value", category[2]);
+                inputNode.setAttribute("style", "text-align: right; width: 80px;");
+                nodeTDInput.appendChild(inputNode);
+
+                nodeRow.appendChild(nodeTDLabel);
+                nodeRow.appendChild(nodeTDInput);
+
+                nodeTable.appendChild(nodeRow);
             }
-            subCategoryList.appendChild(node);
+
+            streamingSubCategory.appendChild(nodeTable);
+
+            // create ok button
+            var nodeButton = document.createElement("button");
+            nodeButton.setAttribute("class", "button-green");
+            nodeButton.setAttribute("onclick", "ClickOK()");
+            var nodeButtonText = document.createElement("span");
+            nodeButtonText.innerText = "Gem";
+            nodeButton.appendChild(nodeButtonText);
+            okbutton.appendChild(nodeButton);
         }
     }
 
-    function ChangeSubCategory() {
-        var streamingTime = document.getElementById("streamingtime");
-        while (streamingTime.childElementCount > 0) {
-            streamingTime.removeChild(streamingTime.childNodes[0]);
-        }
-        var nodeInput = document.createElement("input");
-        nodeInput.setAttribute("name", "hoursStreamed");
-        nodeInput.setAttribute("placeholder", "Antal timer");
-        streamingTime.appendChild(nodeInput);
+    function updateTotalValues() {
+        var totalValues = removeChildrenById("totalvalues");
+        var lines = [
+            "Forbrug:",
+            "Video: " + (videoHours >= 0 ? videoHours + " timer." : "---"),
+            "Musik: " + (musicHours >= 0 ? musicHours + " timer." : "---"),
+            "Mobil: " + (mobileHours >= 0 ? mobileHours + " timer." : "---")
+        ];
+        lines.forEach(function (line) {
+            totalValues.appendChild(createValueElement(line))
+        });
+    }
 
-        var button = document.getElementById("submitbutton");
-        while(button.childElementCount > 0){
-            button.removeChild(button.childNodes[0]);
+    function createValueElement(line) {
+        var lineElement = document.createElement("div");
+        lineElement.innerText = line;
+        return lineElement;
+    }
+
+    function updateTotalFormValues() {
+        if (videoHours >= 0)
+            document.getElementsByName("videoHours")[0].setAttribute("value", videoHours);
+        if (musicHours >= 0)
+            document.getElementsByName("musicHours")[0].setAttribute("value", musicHours);
+        if (mobileHours >= 0)
+            document.getElementsByName("mobileHours")[0].setAttribute("value", mobileHours);
+    }
+
+    function removeChildrenById(elementId) {
+        element = document.getElementById(elementId);
+        removeChildrenFromElement(element);
+        return element;
+    }
+
+    function removeChildrenFromElement(element) {
+        while (element.childElementCount > 0) {
+            element.removeChild(element.childNodes[0]);
         }
+    }
+
+    function ClickOK() {
+        var streamingCategory = document.getElementById("category");
+        var selectedCategory = streamingCategory.options[streamingCategory.selectedIndex].value;
+        var streamingSubCategory = document.getElementById("subcategory");
+        var totalHours = 0.0;
+        var i = 0;
+
+        var tableNode = streamingSubCategory.childNodes[0];
+
+        for (const tdNode of tableNode.children) {
+            var divNode = tdNode.childNodes[1].childNodes[0];
+            if (divNode.tagName == "INPUT") {
+                totalHours = totalHours + parseFloat(divNode.value);
+                categories[selectedCategory][i][2] = divNode.value;
+                i++;
+            }
+        }
+        switch (selectedCategory) {
+            case "VIDEO":
+                videoHours = totalHours;
+                break;
+            case "MUSIC":
+                musicHours = totalHours;
+                break;
+            case "MOBILE":
+                mobileHours = totalHours;
+        }
+
+        updateTotalValues();
+        updateTotalFormValues();
+
+        if (videoHours >= 0 && musicHours >= 0 && mobileHours >= 0)
+            createSubmitButton();
+        else
+            removeChildrenById("submitbutton");
+    }
+
+    function createSubmitButton() {
+        var button = document.getElementById("submitbutton");
 
         var nodeButton = document.createElement("button");
-        nodeButton.setAttribute("class","button-green");
-        nodeButton.setAttribute("type","submit");
-        nodeButton.setAttribute("form","time-form");
+        nodeButton.setAttribute("class", "button-green");
+        nodeButton.setAttribute("type", "submit");
+        nodeButton.setAttribute("form", "time-form");
         button.appendChild(nodeButton);
 
         var nodeButtonText = document.createElement("span");
-        nodeButtonText.innerText="Beregn";
+        nodeButtonText.innerText = "Beregn";
         nodeButton.appendChild(nodeButtonText);
-
-        nodeInput.focus();
+        return nodeButton;
     }
+
 </script>
 </body>
 </html>
