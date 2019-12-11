@@ -87,26 +87,43 @@
 
         var okbutton = removeChildrenById("okbutton");
 
+        // <table> <tr> <td>spotify</td> <td>inputbox + timer</td> </tr> </table>
         if (categories[selectedCategory]) {
+
+            var nodeTable = document.createElement("table");
+            nodeTable.setAttribute("width","400");
+            nodeTable.setAttribute("style","margin-left: auto; margin-right: auto;");
+
             for (const category of categories[selectedCategory]) {
 
-                var divNode = document.createElement("div");
+                var nodeRow = document.createElement("tr");
 
+                var nodeTDLabel = document.createElement("td");
+                <!--
                 var labelNode = document.createElement("label");
                 labelNode.innerText = category[0];
-                labelNode.setAttribute("style", "text-align: left;")
+                labelNode.setAttribute("style", "text-align: left;");
+                nodeTDLabel.appendChild(labelNode);
+                -->
+                nodeTDLabel.innerText=category[0];
+                nodeTDLabel.setAttribute("style","text-align:left;")
 
+                var nodeTDInput = document.createElement("td");
                 var inputNode = document.createElement("input");
                 inputNode.setAttribute("name", category[1]);
                 inputNode.setAttribute("value", category[2]);
-                inputNode.setAttribute("style", "text-align: right;")
+                inputNode.setAttribute("style", "text-align: right; width: 80px;");
+                nodeTDInput.appendChild(inputNode);
 
-                divNode.appendChild(labelNode);
-                divNode.appendChild(inputNode);
+                nodeRow.appendChild(nodeTDLabel);
+                nodeRow.appendChild(nodeTDInput);
 
-                streamingSubCategory.appendChild(divNode);
+                nodeTable.appendChild(nodeRow);
             }
 
+            streamingSubCategory.appendChild(nodeTable);
+
+            // create ok button
             var nodeButton = document.createElement("button");
             nodeButton.setAttribute("class", "button-green");
             nodeButton.setAttribute("onclick", "ClickOK()");
@@ -164,11 +181,6 @@
         var totalHours = 0.0;
         var i = 0;
 
-        var button = document.getElementById("submitbutton");
-        while (button.childElementCount > 0) {
-            button.removeChild(button.childNodes[0]);
-        }
-
         for (const a of streamingSubCategory.children) {
             var divNode = a.lastChild;
             if (divNode.tagName == "INPUT") {
@@ -193,6 +205,8 @@
 
         if (videoHours >= 0 && musicHours >= 0 && mobileHours >= 0)
             createSubmitButton();
+        else
+            removeChildrenById("submitbutton");
     }
 
     function createSubmitButton() {
