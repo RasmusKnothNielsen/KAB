@@ -154,8 +154,7 @@ public class MainController {
             }
             model.addAttribute("total",total);
 
-        } catch (NullPointerException ignored) {
-        }
+        } catch (NullPointerException ignored) {}
         return "results";
     }
 }

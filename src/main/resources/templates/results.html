@@ -21,16 +21,12 @@
         km i en nyere diesel bil
     </header>
 
-    <div th:if="${mobile} == null">
+    <div th:if="${mobile} != null">
         <p> Siden sidste uge har du... </p>
-        <p>Sænket dit a med bla</p>
-        <p>Sænket dit a med bla</p>
-        <p>Sænket dit a med bla</p>
-        <p>Sænket dit a med bla</p>
-        <!--p th:text="${mobile}"></p>
+        <p th:text="${mobile}"></p>
         <p th:text="${music}"></p>
         <p th:text="${video}"></p>
-        <p th:text="${total}"></p-->
+        <p th:text="${total}"></p>
     </div>
 
     <a href="/privacy" class="privacyLink">Privacy</a>
