@@ -39,4 +39,8 @@ public class UserService {
 
     }
 
+    public Long getId(String email) {
+        return userRepository.getByEmail(email).getId();
+    }
+
 }
