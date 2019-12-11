@@ -13,19 +13,15 @@ public interface ConsumptionRepository extends CrudRepository<Consumption, Long>
     Consumption findByUserId(Long id);
 
     Consumption findBySession(String session);
+
     @Query(value = "SELECT SUM(mobile_hours + music_hours + video_hours) FROM consumption WHERE user_id = ?",
             nativeQuery = true)
     double sumOfTotalConsumption(Long userId);
 
-
-    public Consumption findByUserId(Long id);
-
     @Query(value = "SELECT * FROM Consumption WHERE user_id = ? AND week = ? AND year = ?", nativeQuery = true)
     Consumption findByUserIdAndAndWeek(Long id, int week, int year);
 
-    public Consumption findBySession(String session);
+    List<Consumption> findAllBySession(String session);
 
-    public List<Consumption> findAllBySession(String session);
-
-    public Consumption findFirstBySessionOrderById(String session);
+    Consumption findFirstBySessionOrderById(String session);
 }

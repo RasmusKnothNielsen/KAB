@@ -1,7 +1,6 @@
 package edu.kea.kab.service;
 
 import edu.kea.kab.model.Authorization;
-import edu.kea.kab.model.Consumption;
 import edu.kea.kab.model.Role;
 import edu.kea.kab.model.User;
 import edu.kea.kab.repository.AuthorizationRepository;
@@ -9,8 +8,6 @@ import edu.kea.kab.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class UserService {
