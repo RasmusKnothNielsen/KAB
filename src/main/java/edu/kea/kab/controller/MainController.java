@@ -79,15 +79,12 @@ public class MainController {
 
 
     @GetMapping("/results")
-    public String getPresentationOfUsage(Model model)
-    {
+    public String getPresentationOfUsage(Model model) {
 
         String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
         Consumption consumption = consumptionRepository.findBySession(sessionId);
-        System.out.println(consumption);
 
-        if (consumption == null)
-        {
+        if (consumption == null) {
             return "redirect:/";
         }
         // Convert hours of streaming into km in diesel car
@@ -96,6 +93,69 @@ public class MainController {
         double mobileConsumption = consumption.getMobileHours() * 5;
         double sum = videoConsumption + mobileConsumption + mobileConsumption;
         model.addAttribute("consumption", sum);
+
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date());
+        int lastWeek = calendar.get(Calendar.WEEK_OF_YEAR)-1;
+        //TODO - handle first week of year
+        int year = calendar.get(Calendar.YEAR);
+
+        try {
+            long userId = consumption.getUser().getId();
+            Consumption lastConsumption = consumptionRepository.findByUserIdAndAndWeek(userId, lastWeek, year);
+
+            double lastVideoCarbon = lastConsumption.getVideoHours() * 100;
+            double lastMusicCarbon = lastConsumption.getMusicHours() * 10;
+            double lastMobileCarbon = lastConsumption.getMobileHours() * 5;
+            double lastSum = lastVideoCarbon + lastMusicCarbon + lastMobileCarbon;
+
+            double diff_mobile = lastConsumption.getMobileHours() - consumption.getMobileHours();
+            double diff_music = lastConsumption.getMusicHours() - consumption.getMusicHours();
+            double diff_video = lastConsumption.getVideoHours() - consumption.getVideoHours();
+
+            String mobile = "";
+            if(diff_mobile < 0) {
+                mobile += "sænket din mobil skærmtid med " + (-1*diff_mobile) + "timer.";
+            } else if (diff_mobile == 0) {
+                mobile = "ikke ændret din mobil skærmtid.";
+            } else if (diff_mobile > 0) {
+                mobile += "øget mobil skærmtid med " + diff_mobile + "timer.";
+            }
+            model.addAttribute("mobile",mobile);
+
+            String music = "";
+            if(diff_music < 0) {
+                music += "sænket din musik streaming med " + (-1*diff_music) + "timer.";
+            } else if (diff_music == 0) {
+                music = "ikke ændret din musik streaming.";
+            } else if (diff_music > 0) {
+                music += "øget musik streaming med " + diff_music + "timer.";
+            }
+            model.addAttribute("music",music);
+
+            String video = "";
+            if(diff_video < 0) {
+                video += "sænket din video streaming med " + (-1*diff_video) + "timer.";
+            } else if (diff_video == 0) {
+                video = "ikke ændret din video streaming.";
+            } else {
+                video += "øget video streaming med " + diff_video + "timer.";
+            }
+            model.addAttribute("video",video);
+
+            String total = "Din samlede CO<sub>2</sub> udledning er ";
+            double percentChangeTotal = Math.abs(lastSum - sum) / lastSum * 100;
+            if(sum < lastSum) {
+                total += "faldet med" + percentChangeTotal + "%";
+            } else if (sum == lastSum) {
+                total += "uændret.";
+            } else {
+                total += "steget med" + percentChangeTotal + "%";
+            }
+            model.addAttribute("total",total);
+
+        } catch (NullPointerException ignored) {
+        }
         return "results";
     }
 }
