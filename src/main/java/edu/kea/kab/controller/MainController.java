@@ -35,11 +35,16 @@ public class MainController {
         return "index";
     }
 
+    @GetMapping("login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping("/input")
     public String input(Model model) {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(new Date());
-        model.addAttribute("weeknumber",calendar.get(Calendar.WEEK_OF_YEAR));
+        model.addAttribute("weeknumber", calendar.get(Calendar.WEEK_OF_YEAR));
         return "input";
     }
 
@@ -55,12 +60,13 @@ public class MainController {
         Calendar calendar = new GregorianCalendar();
         calendar.setTime(new Date());
         int week = calendar.get(Calendar.WEEK_OF_YEAR);
+        int year = calendar.get(Calendar.YEAR);
 
         consumption.setSession(sessionId);
-        consumption.setYear(2019);
+        consumption.setYear(year);
         consumption.setWeek(week);
         consumptionRepository.save(consumption);
-        return "redirect:/input";
+        return "redirect:/presentationofusage";
     }
 
     @GetMapping("/adduser")
@@ -89,6 +95,26 @@ public class MainController {
         }
 
         return "presentationofusage";
+
+    @GetMapping("/results")
+    public String getPresentationOfUsage(Model model)
+    {
+
+        String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
+        Consumption consumption = consumptionRepository.findBySession(sessionId);
+        System.out.println(consumption);
+
+        if (consumption == null)
+        {
+            return "redirect:/";
+        }
+        // Convert hours of streaming into km in diesel car
+        double videoConsumption = consumption.getVideoHours() * 100;
+        double musicConsumption = consumption.getMusicHours() * 10;
+        double mobileConsumption = consumption.getMobileHours() * 5;
+        double sum = videoConsumption + mobileConsumption + mobileConsumption;
+        model.addAttribute("consumption", sum);
+        return "results";
     }
 }
 

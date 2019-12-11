@@ -12,4 +12,8 @@ public interface ConsumptionRepository extends CrudRepository<Consumption, Long>
             nativeQuery = true)
     double sumOfTotalConsumption(Long userId);
 
+
+    public Consumption findByUserId(Long id);
+
+    public Consumption findBySession(String session);
 }

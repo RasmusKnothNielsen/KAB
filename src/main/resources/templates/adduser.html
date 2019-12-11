@@ -2,7 +2,7 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Create Profile</title>
+    <title>Opret Profil</title>
     <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
@@ -21,7 +21,7 @@
         <form name="form-login" th:action="@{'/adduser'}" method="post">
             <input type="hidden" value="1" name="enabled"/>
 
-            <input class="inputfield" type="text" name="username"
+            <input class="inputfield" type="text" name="email"
                    placeholder="E-Mail" required/>
             <br>
             <input class="inputfield" type="password" name="password"
