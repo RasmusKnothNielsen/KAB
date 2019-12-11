@@ -181,8 +181,10 @@
         var totalHours = 0.0;
         var i = 0;
 
-        for (const a of streamingSubCategory.children) {
-            var divNode = a.lastChild;
+        var tableNode = streamingSubCategory.childNodes[0];
+
+        for (const tdNode of tableNode.children) {
+            var divNode = tdNode.childNodes[1].childNodes[0];
             if (divNode.tagName == "INPUT") {
                 totalHours = totalHours + parseFloat(divNode.value);
                 categories[selectedCategory][i][2] = divNode.value;
