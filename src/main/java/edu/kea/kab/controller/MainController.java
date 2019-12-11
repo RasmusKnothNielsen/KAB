@@ -79,14 +79,12 @@ public class MainController {
 
 
     @GetMapping("/results")
-    public String getPresentationOfUsage(Model model)
-    {
+    public String getPresentationOfUsage(Model model) {
 
         String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
         Consumption consumption = consumptionRepository.findBySession(sessionId);
 
-        if (consumption == null)
-        {
+        if (consumption == null) {
             return "redirect:/";
         }
         // Convert hours of streaming into km in diesel car
@@ -106,26 +104,24 @@ public class MainController {
             // Calculate difference in percent
             double sumPercent = ((weeklyAverage - sumHours) / weeklyAverage) * 100;
             sumPercent = Math.floor(sumPercent);
-            model.addAttribute("result", "Du bruger gennemsnitligt " + sumPercent +
-                    "% mindre om året end den gennemsnitlige dansker som streamer 7 timer om "
-                    + "dagen inkl. tid med mobiltelefonen.");
+            model.addAttribute("result", "Du bruger gennemsnitligt " + sumPercent + "% mindre om året end den " +
+                    "gennemsnitlige dansker som streamer 7 timer om dagen inkl. tid med mobiltelefonen.");
+
 
         } else if (weeklyAverage < sumHours) {
             // You stream more than average
             // Calculate difference in percent
-            double sumPercent = ((sumHours/weeklyAverage)-1)*100;
+            double sumPercent = ((sumHours / weeklyAverage) - 1) * 100;
             sumPercent = Math.floor(sumPercent);
-            model.addAttribute("result", "Du bruger gennemsnitligt " + sumPercent +
-                    "% mere om året end den gennemsnitlige dansker som streamer 7 timer om " +
-                    "dagen inkl. tid med mobiltelefonen.");
+            model.addAttribute("result", "Du bruger gennemsnitligt " + sumPercent + "% mere om året end den " +
+                    "gennemsnitlige dansker som streamer 7 timer om dagen inkl. tid med mobiltelefonen.");
 
         } else {
             // You stream exactly as much as the average
-            model.addAttribute("result", "Du bruger nøjagtig det samme som en gennemsnitsdansker, "
-                    + " 7 timer om dagen inkl. tid med mobiltelefonen.");
+            model.addAttribute("result", "Du bruger gennemsnitligt det samme som den " +
+                    "gennemsnitlige dansker som streamer 7 timer om dagen inkl. tid med mobiltelefonen.");
+
         }
-
-
         return "results";
     }
 }
