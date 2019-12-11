@@ -98,6 +98,7 @@ public class MainController {
         // Compare to average, which is said to be 3,5 hours pr day, ie 24,5 hours a week.
         double weeklyAverage = 24.5;
         double sumHours = consumption.getVideoHours() + consumption.getMusicHours() + consumption.getMobileHours();
+        System.out.println(sumHours);
 
         if (sumHours < weeklyAverage) {
             // You stream less than the average
