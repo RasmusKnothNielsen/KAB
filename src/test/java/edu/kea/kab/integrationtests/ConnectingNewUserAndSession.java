@@ -37,7 +37,7 @@ public class ConnectingNewUserAndSession {
     UserRepository userRepository;
 
     @Test
-    void test1() throws Exception {
+    void ifUserRegistersAfterInputTheInputIsAssignedToThatUser() throws Exception {
 
         final String USER_EMAIL="niki@mail.com";
 
