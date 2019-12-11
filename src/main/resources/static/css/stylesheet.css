@@ -64,6 +64,12 @@ button {
     margin-bottom: 50px;
 }
 
+.results {
+    max-width: 50%;
+    position: absolute;
+    margin-left: 25%;
+}
+
 .top-container {
     display: grid;
     grid-template-areas: 'logo menu';

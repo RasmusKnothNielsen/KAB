@@ -100,7 +100,8 @@ public class MainController {
             userdetails.User user, Principal principal) {
 
         String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
-        Consumption consumption = consumptionRepository.findBySession(sessionId);
+        Consumption consumption = consumptionRepository.findFirstBySessionOrderById(sessionId);
+
 
         if (consumption == null) {
             return "redirect:/";
@@ -109,8 +110,9 @@ public class MainController {
         double videoConsumption = consumption.getVideoHours() * 100;
         double musicConsumption = consumption.getMusicHours() * 10;
         double mobileConsumption = consumption.getMobileHours() * 5;
-        double sum = videoConsumption + mobileConsumption + mobileConsumption;
-        model.addAttribute("consumption", sum);
+        double sum = videoConsumption + musicConsumption + mobileConsumption;
+        int absolutSum = (int) Math.abs(sum);
+        model.addAttribute("consumption", absolutSum);
 
         // if the current user is already a registered user
         if (user != null) {
@@ -126,6 +128,35 @@ public class MainController {
             }
         }
 
+
+        // Compare to average, which is said to be 3,5 hours pr day, ie 24,5 hours a week.
+        double weeklyAverage = 24.5;
+        double sumHours = consumption.getVideoHours() + consumption.getMusicHours() + consumption.getMobileHours();
+        System.out.println(sumHours);
+
+        if (sumHours < weeklyAverage) {
+            // You stream less than the average
+            // Calculate difference in percent
+            double sumPercent = ((weeklyAverage - sumHours) / weeklyAverage) * 100;
+            sumPercent = Math.floor(sumPercent);
+            model.addAttribute("result", "Du bruger gennemsnitligt " + sumPercent + "% mindre om året end den " +
+                    "gennemsnitlige dansker som streamer 7 timer om dagen inkl. tid med mobiltelefonen.");
+
+
+        } else if (weeklyAverage < sumHours) {
+            // You stream more than average
+            // Calculate difference in percent
+            double sumPercent = ((sumHours / weeklyAverage) - 1) * 100;
+            sumPercent = Math.floor(sumPercent);
+            model.addAttribute("result", "Du bruger gennemsnitligt " + sumPercent + "% mere om året end den " +
+                    "gennemsnitlige dansker som streamer 7 timer om dagen inkl. tid med mobiltelefonen.");
+
+        } else {
+            // You stream exactly as much as the average
+            model.addAttribute("result", "Du bruger gennemsnitligt det samme som den " +
+                    "gennemsnitlige dansker som streamer 7 timer om dagen inkl. tid med mobiltelefonen.");
+
+        }
         // Calculate total consumption
         if(user != null) {
             double totalConsumption = consumptionRepository.sumOfTotalConsumption(userService.getId(principal.getName()));

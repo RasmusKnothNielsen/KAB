@@ -13,17 +13,22 @@
     <section class="menu"><i class="material-icons md-48">menu</i></section>
 </header>
 <article class="main-container">
-    <header class="main-header">
-        Svarende til
-    </header>
-    <header class="main-header" th:text="${consumption}"></header>
-    <header class="main-header">
-        km i en nyere diesel bil
-    </header>
+
+    <header class="main-header">Resultater</header>
 
 
     <div style="padding-bottom: 10px" th:text="'Total forbrug registreret på siden: ' + ${totalConsumption} + ' timer.'"></div>
 
+    <h2>
+        Dit ugentlige streaming forbrug svarer til
+    </h2>
+    <h2 th:text="${consumption} + ' km'"> </h2>
+    <h2>
+        kørt i en nyere diesel bil
+    </h2>
+
+    <div class="results" th:text="${result}"></div>
+    <br><br><br><br>
     <a href="/adduser">Opret dig som bruger for at følge dit forbrug</a>
 
     <a href="/privacy" class="privacyLink">Privacy</a>
