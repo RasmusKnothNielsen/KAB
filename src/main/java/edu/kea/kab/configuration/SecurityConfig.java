@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .formLogin()
                         .loginPage("/login").permitAll()
                         // Når vi logger ind, hvilken side skal vi så havne på?
-                        .defaultSuccessUrl("/", true)
+                        .defaultSuccessUrl("/profile", true)
                         .failureUrl("/login?error")
                 .and()
                     .logout()

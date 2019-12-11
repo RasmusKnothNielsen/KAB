@@ -31,7 +31,7 @@ public class MainController {
         return "index";
     }
 
-    @GetMapping("login")
+    @GetMapping("/login")
     public String login() {
         return "login";
     }
@@ -42,6 +42,11 @@ public class MainController {
         calendar.setTime(new Date());
         model.addAttribute("weeknumber",calendar.get(Calendar.WEEK_OF_YEAR));
         return "input";
+    }
+
+    @GetMapping("/profile")
+    public String profile() {
+        return "/profile";
     }
 
     @GetMapping("/privacy")
