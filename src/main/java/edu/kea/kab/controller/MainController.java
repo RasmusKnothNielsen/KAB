@@ -4,6 +4,7 @@ import edu.kea.kab.model.Consumption;
 import edu.kea.kab.model.Role;
 import edu.kea.kab.model.User;
 import edu.kea.kab.repository.ConsumptionRepository;
+import edu.kea.kab.service.ConsumptionService;
 import edu.kea.kab.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -19,6 +20,7 @@ import java.security.Principal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -29,6 +31,8 @@ public class MainController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ConsumptionService consumptionService;
 
     @GetMapping("/")
     public String index() {
@@ -83,6 +87,11 @@ public class MainController {
     @PostMapping("/adduser")
     public String addUser(User user) {
         userService.addUser(user);
+
+        String session = RequestContextHolder.currentRequestAttributes().getSessionId();
+
+        consumptionService.connectUserWithSession(user,session);
+
         return "/adduser";
     }
 
