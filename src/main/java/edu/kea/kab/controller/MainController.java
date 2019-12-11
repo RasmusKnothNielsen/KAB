@@ -3,6 +3,7 @@ package edu.kea.kab.controller;
 import edu.kea.kab.model.Consumption;
 import edu.kea.kab.model.User;
 import edu.kea.kab.repository.ConsumptionRepository;
+import edu.kea.kab.service.ConsumptionService;
 import edu.kea.kab.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,6 +16,7 @@ import org.springframework.web.context.request.RequestContextHolder;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 @Controller
 public class MainController {
@@ -25,6 +27,8 @@ public class MainController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    ConsumptionService consumptionService;
 
     @GetMapping("/")
     public String index() {
@@ -74,20 +78,23 @@ public class MainController {
     @PostMapping("/adduser")
     public String addUser(User user) {
         userService.addUser(user);
+
+        String session = RequestContextHolder.currentRequestAttributes().getSessionId();
+
+        consumptionService.connectUserWithSession(user,session);
+
         return "/adduser";
     }
 
 
     @GetMapping("/results")
-    public String getPresentationOfUsage(Model model)
-    {
+    public String getPresentationOfUsage(Model model) {
 
         String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
         Consumption consumption = consumptionRepository.findBySession(sessionId);
         System.out.println(consumption);
 
-        if (consumption == null)
-        {
+        if (consumption == null) {
             return "redirect:/";
         }
         // Convert hours of streaming into km in diesel car
