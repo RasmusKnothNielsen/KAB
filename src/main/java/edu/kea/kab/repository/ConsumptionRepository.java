@@ -20,4 +20,6 @@ public interface ConsumptionRepository extends CrudRepository<Consumption, Long>
     public Consumption findBySession(String session);
 
     public List<Consumption> findAllBySession(String session);
+
+    public Consumption findFirstBySessionOrderById(String session);
 }
