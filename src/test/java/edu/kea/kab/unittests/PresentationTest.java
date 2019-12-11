@@ -11,6 +11,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.request.RequestContextHolder;
 
+import javax.transaction.Transactional;
 import java.util.Iterator;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,6 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
+@Transactional
 public class PresentationTest {
 
     @Autowired
@@ -39,7 +41,7 @@ public class PresentationTest {
         String stringSessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
 
         // count is equal to 0 because it's a mock database and therefore the database is empty on startup.
-        assertThat(consumptionRepository.count()).isEqualTo(0);
+        long count= consumptionRepository.count();
 
         // Run the controller method "/input"
         // .param() is the object parameter
@@ -54,7 +56,7 @@ public class PresentationTest {
                 .andExpect(status().is3xxRedirection());
 
         // count is equal to 1 because it's a mock database and therefore the database is empty on startup.
-        assertThat(consumptionRepository.count()).isEqualTo(1);
+        assertThat(consumptionRepository.count()).isEqualTo(count+1);
 
 
         // Pull the consumption object from the database

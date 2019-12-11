@@ -1,6 +1,7 @@
 package edu.kea.kab.service;
 
 import edu.kea.kab.model.Authorization;
+import edu.kea.kab.model.Consumption;
 import edu.kea.kab.model.Role;
 import edu.kea.kab.model.User;
 import edu.kea.kab.repository.AuthorizationRepository;
@@ -8,6 +9,8 @@ import edu.kea.kab.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -30,7 +33,8 @@ public class UserService {
 
         // Instantiating a Authorization object and setting its userId to match the new user and role to user
         Authorization authorization = new Authorization();
-        authorization.setUserId(user.getId());        authorization.setRole(Role.ROLE_USER);
+        authorization.setUserId(user.getId());
+        authorization.setRole(Role.ROLE_USER);
         authorizationRepository.save(authorization);
 
     }
