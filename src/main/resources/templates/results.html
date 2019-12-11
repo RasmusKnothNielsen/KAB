@@ -25,6 +25,14 @@
     </h2>
 
     <div class="results" th:text="${result}"></div>
+    <br>
+    <div th:if="${mobile} != null">
+        <p> Siden sidste uge har du... </p>
+        <p th:text="${mobile}"></p>
+        <p th:text="${music}"></p>
+        <p th:text="${video}"></p>
+        <p th:text="${total}"></p>
+    </div>
     <br><br><br><br>
     <a href="/adduser">Opret dig som bruger for at følge dit forbrug</a>
 
