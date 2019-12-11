@@ -92,7 +92,6 @@ public class MainController {
 
         String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
         Consumption consumption = consumptionRepository.findBySession(sessionId);
-        System.out.println(consumption);
 
         if (consumption == null) {
             return "redirect:/";
