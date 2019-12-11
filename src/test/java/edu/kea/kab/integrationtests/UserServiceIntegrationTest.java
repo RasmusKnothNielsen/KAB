@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 @SpringBootTest
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
-public class userServiceIntegrationTest {
+public class UserServiceIntegrationTest {
 
     @Autowired
     MockMvc mvc;
