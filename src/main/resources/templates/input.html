@@ -181,6 +181,8 @@
         var totalHours = 0.0;
         var i = 0;
 
+        removeChildrenById("submitbutton");
+
         var tableNode = streamingSubCategory.childNodes[0];
 
         for (const tdNode of tableNode.children) {
@@ -207,8 +209,7 @@
 
         if (videoHours >= 0 && musicHours >= 0 && mobileHours >= 0)
             createSubmitButton();
-        else
-            removeChildrenById("submitbutton");
+
     }
 
     function createSubmitButton() {
