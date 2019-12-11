@@ -66,7 +66,7 @@ public class MainController {
         consumption.setYear(year);
         consumption.setWeek(week);
         consumptionRepository.save(consumption);
-        return "redirect:/presentationofusage";
+        return "redirect:/results";
     }
 
     @GetMapping("/adduser")
