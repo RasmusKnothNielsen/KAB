@@ -126,6 +126,16 @@ public class MainController {
             }
         }
 
+        // Calculate total consumption
+        if(user != null) {
+            double totalConsumption = consumptionRepository.sumOfTotalConsumption(userService.getId(principal.getName()));
+            System.out.println(totalConsumption);
+            model.addAttribute("totalConsumption", totalConsumption);
+        } else {
+                    model.addAttribute("totalConsumption", "Only logged in users can see their total consumption");
+                }
+
+
         return "results";
     }
 }
