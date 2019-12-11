@@ -81,31 +81,15 @@ public class MainController {
         return "/adduser";
     }
 
-    @GetMapping("/presentationofusage")
+    @GetMapping("/results")
     public String getPresentationOfUsage(Model model, @AuthenticationPrincipal org.springframework.security.core.
             userdetails.User user, Principal principal) {
-        // if the current user is already a registered user
-        for (GrantedAuthority authority : user.getAuthorities()) {
-            if (authority.getAuthority().equals(Role.ROLE_USER)) {
-                // save the total consumption in a double so it can referenced with thymeleaf
-                double sumOfTotalConsumption = consumptionRepository.sumOfTotalConsumption(userService.getId(
-                        principal.getName()));
-                model.addAttribute("totalSum", sumOfTotalConsumption);
-            }
-        }
-
-        return "presentationofusage";
-
-    @GetMapping("/results")
-    public String getPresentationOfUsage(Model model)
-    {
 
         String sessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
         Consumption consumption = consumptionRepository.findBySession(sessionId);
         System.out.println(consumption);
 
-        if (consumption == null)
-        {
+        if (consumption == null) {
             return "redirect:/";
         }
         // Convert hours of streaming into km in diesel car
@@ -114,6 +98,21 @@ public class MainController {
         double mobileConsumption = consumption.getMobileHours() * 5;
         double sum = videoConsumption + mobileConsumption + mobileConsumption;
         model.addAttribute("consumption", sum);
+
+        // if the current user is already a registered user
+        if (user != null) {
+            if (user.getAuthorities() != null) {
+                for (GrantedAuthority authority : user.getAuthorities()) {
+                    if (authority.getAuthority().equals(Role.ROLE_USER)) {
+                        // save the total consumption in a double so it can referenced with thymeleaf
+                        double sumOfTotalConsumption = consumptionRepository.sumOfTotalConsumption(userService.getId(
+                                principal.getName()));
+                        model.addAttribute("totalSum", sumOfTotalConsumption);
+                    }
+                }
+            }
+        }
+
         return "results";
     }
 }
