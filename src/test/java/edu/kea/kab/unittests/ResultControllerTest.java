@@ -3,17 +3,23 @@ package edu.kea.kab.unittests;
 import edu.kea.kab.controller.MainController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.sql.DataSource;
+import javax.transaction.Transactional;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(MainController.class)
-public class AddUsersTest {
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@AutoConfigureTestDatabase
+@Transactional
+public class ResultControllerTest {
 
     @Autowired
     MockMvc mvc;
@@ -21,13 +27,11 @@ public class AddUsersTest {
     @MockBean
     MainController mainController;
 
-    @MockBean
-    DataSource dataSource;
 
     @Test
-    void canLoadAddUserPage() throws Exception{
+    void canLoadResultsPage() throws Exception {
         mvc
-                .perform(get("/adduser"))
+                .perform(get("/results"))
                 .andExpect(status().isOk());
     }
 }

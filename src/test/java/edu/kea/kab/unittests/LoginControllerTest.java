@@ -3,23 +3,17 @@ package edu.kea.kab.unittests;
 import edu.kea.kab.controller.MainController;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import javax.transaction.Transactional;
+import javax.sql.DataSource;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
-@SpringBootTest
-@AutoConfigureMockMvc
-@AutoConfigureTestDatabase
-@Transactional
-public class PageLoaderTest {
+@WebMvcTest(MainController.class)
+public class LoginControllerTest {
 
     @Autowired
     MockMvc mvc;
@@ -27,12 +21,13 @@ public class PageLoaderTest {
     @MockBean
     MainController mainController;
 
+    @MockBean
+    DataSource dataSource;
 
     @Test
-    void canLoadAddUserPage() throws Exception
-    {
+    void canLoadLoginPage() throws Exception{
         mvc
-                .perform(get("/results"))
+                .perform(get("/login"))
                 .andExpect(status().isOk());
     }
 }

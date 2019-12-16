@@ -1,4 +1,4 @@
-package edu.kea.kab.unittests;
+package edu.kea.kab.integrationtests;
 
 import edu.kea.kab.model.Consumption;
 import edu.kea.kab.repository.ConsumptionRepository;
@@ -9,14 +9,14 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.transaction.Transactional;
-import java.util.Iterator;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @Transactional
-public class PresentationTest {
+public class SaveInputTestAndRetrieveInputTest {
 
     @Autowired
     MockMvc mvc;
@@ -33,15 +33,12 @@ public class PresentationTest {
     @Autowired
     ConsumptionRepository consumptionRepository;
 
-
-    //TODO add test to see if the correct data is extracted from the database.
+    // Test if a newly created Consumption object is saved to the consumption table
     @Test
-    void canRetrieveUserData() throws Exception {
-
-        String stringSessionId = RequestContextHolder.currentRequestAttributes().getSessionId();
+    void canSaveInputToDatabaseAndRetrieveInput() throws Exception {
 
         // count is equal to 0 because it's a mock database and therefore the database is empty on startup.
-        long count= consumptionRepository.count();
+        assertThat(consumptionRepository.count()).isEqualTo(0);
 
         // Run the controller method "/input"
         // .param() is the object parameter
@@ -50,30 +47,35 @@ public class PresentationTest {
                 .param("videoHours", "2")
                 .param("musicHours", "3")
                 .param("mobileHours", "5")
-                .param("session", stringSessionId)
                 .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is3xxRedirection());
+                .andExpect(status().isFound());
 
         // count is equal to 1 because it's a mock database and therefore the database is empty on startup.
-        assertThat(consumptionRepository.count()).isEqualTo(count+1);
+        assertThat(consumptionRepository.count()).isEqualTo(1);
 
+        Iterable<Consumption> consumptions = consumptionRepository.findAll();
 
-        // Pull the consumption object from the database
-        Iterator iterator = consumptionRepository.findAll().iterator();
-        Consumption consumption = (Consumption) iterator.next();
+        // iterate through the Consumption table
+        assertThat(consumptions.iterator().hasNext()).isTrue();
 
-        // Create mock object, to compare with consumption object from database
-        Consumption mockConsumption = new Consumption();
-        mockConsumption.setSession(stringSessionId);
-        mockConsumption.setVideoHours(2);
-        mockConsumption.setMusicHours(3);
-        mockConsumption.setMobileHours(5);
+        // save the next object.
+        Consumption savedConsumptions = consumptions.iterator().next();
+        assertThat(savedConsumptions).isNotNull();
 
-        assertThat(consumption.equals(mockConsumption));
+        // compare the object to the original saved object
+        assertThat(savedConsumptions.getVideoHours()).isEqualTo(2.0);
+        assertThat(savedConsumptions.getMusicHours()).isEqualTo(3.0);
+        assertThat(savedConsumptions.getMobileHours()).isEqualTo(5.0);
 
-        // Delete consumption entity from test database
-        consumptionRepository.delete(consumption);
+        Calendar calendar = new GregorianCalendar();
+        calendar.setTime(new Date());
+        int week = calendar.get(Calendar.WEEK_OF_YEAR);
+        assertThat(savedConsumptions.getWeek()).isEqualTo(week);
+        int year = calendar.get(Calendar.YEAR);
+        assertThat(savedConsumptions.getYear()).isEqualTo(year);
 
     }
+
 }
+

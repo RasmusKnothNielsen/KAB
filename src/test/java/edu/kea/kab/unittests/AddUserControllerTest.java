@@ -13,7 +13,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @WebMvcTest(MainController.class)
-public class LoginTests {
+public class AddUserControllerTest {
 
     @Autowired
     MockMvc mvc;
@@ -25,9 +25,9 @@ public class LoginTests {
     DataSource dataSource;
 
     @Test
-    void canLoadLoginPage() throws Exception{
+    void canLoadAddUserPage() throws Exception {
         mvc
-                .perform(get("/login"))
+                .perform(get("/adduser"))
                 .andExpect(status().isOk());
     }
 }
