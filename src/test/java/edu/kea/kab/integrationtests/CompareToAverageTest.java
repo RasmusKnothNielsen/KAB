@@ -1,4 +1,4 @@
-package edu.kea.kab.unittests;
+package edu.kea.kab.integrationtests;
 
 
 import edu.kea.kab.repository.ConsumptionRepository;
@@ -25,7 +25,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @Transactional
-public class CompareToAverage {
+public class CompareToAverageTest {
 
     @Autowired
     MockMvc mvc;

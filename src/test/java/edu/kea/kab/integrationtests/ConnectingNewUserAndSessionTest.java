@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @Transactional
-public class ConnectingNewUserAndSession {
+public class ConnectingNewUserAndSessionTest {
 
     @Autowired
     MockMvc mvc;

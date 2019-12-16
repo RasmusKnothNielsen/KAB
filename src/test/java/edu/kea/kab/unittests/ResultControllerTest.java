@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @AutoConfigureTestDatabase
 @Transactional
-public class PageLoaderTest {
+public class ResultControllerTest {
 
     @Autowired
     MockMvc mvc;
@@ -29,7 +29,7 @@ public class PageLoaderTest {
 
 
     @Test
-    void canLoadAddUserPage() throws Exception
+    void canLoadResultsPage() throws Exception
     {
         mvc
                 .perform(get("/results"))
