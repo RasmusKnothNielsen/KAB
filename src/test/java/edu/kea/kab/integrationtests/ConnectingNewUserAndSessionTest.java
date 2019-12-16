@@ -41,7 +41,7 @@ public class ConnectingNewUserAndSessionTest {
     @Test
     void ifUserRegistersAfterInputTheInputIsAssignedToThatUser() throws Exception {
 
-        final String USER_EMAIL="niki@mail.com";
+        final String USER_EMAIL = "niki@mail.com";
 
         MockHttpSession session = new MockHttpSession();
 

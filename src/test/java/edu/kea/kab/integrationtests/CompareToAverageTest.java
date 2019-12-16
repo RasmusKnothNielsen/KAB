@@ -41,14 +41,14 @@ public class CompareToAverageTest {
         String stringSessionId = session.getId();
 
         mvc.perform(post("/input").with(csrf().asHeader())
-            .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
-            .param("videoHours", "10")
-            .param("musicHours", "10")
-            .param("mobileHours", "10")
-            .param("session", stringSessionId)
-            .accept(MediaType.APPLICATION_JSON))
-            .andDo(print())
-            .andExpect(status().isFound());
+                .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                .param("videoHours", "10")
+                .param("musicHours", "10")
+                .param("mobileHours", "10")
+                .param("session", stringSessionId)
+                .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isFound());
 
         // TODO implement the rest of calculation check
 

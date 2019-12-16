@@ -29,8 +29,7 @@ public class ResultControllerTest {
 
 
     @Test
-    void canLoadResultsPage() throws Exception
-    {
+    void canLoadResultsPage() throws Exception {
         mvc
                 .perform(get("/results"))
                 .andExpect(status().isOk());

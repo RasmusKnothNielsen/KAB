@@ -25,7 +25,7 @@ public class AddUserControllerTest {
     DataSource dataSource;
 
     @Test
-    void canLoadAddUserPage() throws Exception{
+    void canLoadAddUserPage() throws Exception {
         mvc
                 .perform(get("/adduser"))
                 .andExpect(status().isOk());

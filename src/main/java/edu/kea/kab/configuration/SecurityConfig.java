@@ -19,8 +19,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private DataSource dataSource;
 
     @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception
-    {
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().dataSource(dataSource)
                 .usersByUsernameQuery("SELECT email, password, enabled FROM users WHERE email =?")
                 // Query to get the authorization from the database
@@ -45,14 +44,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/results").permitAll()
                 .anyRequest().authenticated()
                 .and()
-                    .formLogin()
-                        .loginPage("/login").permitAll()
-                        // Når vi logger ind, hvilken side skal vi så havne på?
-                        .defaultSuccessUrl("/profile", true)
-                        .failureUrl("/login?error")
+                .formLogin()
+                .loginPage("/login").permitAll()
+                // Når vi logger ind, hvilken side skal vi så havne på?
+                .defaultSuccessUrl("/profile", true)
+                .failureUrl("/login?error")
                 .and()
-                    .logout()
-                        .logoutSuccessUrl("/login?logout").permitAll();
+                .logout()
+                .logoutSuccessUrl("/login?logout").permitAll();
     }
 
     // PasswordEncoder Bean is needed to hash the password

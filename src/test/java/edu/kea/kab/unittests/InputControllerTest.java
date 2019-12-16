@@ -36,7 +36,7 @@ public class InputControllerTest {
     DataSource dataSource;
 
     @Test
-    void canLoadInputPage() throws Exception{
+    void canLoadInputPage() throws Exception {
         mvc
                 .perform(get("/input"))
                 .andExpect(status().isOk());
