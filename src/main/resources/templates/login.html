@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Log ind</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<header class="top-container">
+    <section class="logo"><a href="/"><img src="/img/logo.png" alt="logo"/></a></section>
+    <section class="menu"><i class="material-icons md-48">menu</i></section>
+</header>
+
+<article class="main-container">
+    <header class="main-header">
+        Log ind
+    </header>
+
+    <main class="login-main">
+        <form name="form-login" th:action="@{/login}" method="post">
+            <!-- show notification on error refers to the url "/login?error-->
+            <div th:if="${param.error}">
+                <h3>Ugyldigt brugernavn eller kode</h3>
+            </div>
+            <!-- show notification of logout - refers to the url "/login?logout -->
+            <div th:if="${param.logout}">
+                <h3>Du har nu logget ud</h3>
+            </div>
+            <input class="inputfield" id="username" type="text" name="username"
+                   placeholder="E-Mail"/>
+            <br>
+            <input class="inputfield" type="password" name="password"
+                   placeholder="Kodeord"/>
+            <br>
+            <button class="button-green" type="submit">
+                <span>Log ind</span>
+            </button>
+        </form>
+        <a href="/adduser" class="newUserLink">Ny bruger? Klik her!</a>
+    </main>
+    <a href="/privacy" class="privacyLink">Privacy</a>
+</article>
+</body>
+</html>

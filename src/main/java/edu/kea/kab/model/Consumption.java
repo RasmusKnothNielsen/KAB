@@ -10,11 +10,22 @@ public class Consumption {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    Long id;
 
-    @Enumerated(EnumType.STRING)
-    private Categories category;
+    double musicHours;
 
-    private double hoursStreamed;
+    double videoHours;
+
+    double mobileHours;
+
+    int week;
+
+    int year;
+
+    String session;
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    User user;
 
 }

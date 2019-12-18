@@ -7,7 +7,7 @@ body {
 }
 
 .md-48 {
-    font-size: 48px;
+    font-size: 48px !important;
 }
 
 button {
@@ -64,6 +64,12 @@ button {
     margin-bottom: 50px;
 }
 
+.results {
+    max-width: 50%;
+    position: absolute;
+    margin-left: 25%;
+}
+
 .top-container {
     display: grid;
     grid-template-areas: 'logo menu';
@@ -84,6 +90,9 @@ button {
     text-align: center;
 }
 
+.newUserLink {
+    font-size: 10px;
+}
 .privacyLink {
     position: fixed;
     left: 50%;

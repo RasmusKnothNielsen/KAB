@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Præsentering af forbrug</title>
+    <link rel="stylesheet" type="text/css" href="/css/stylesheet.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+
+<header class="top-container">
+    <section class="logo"><a href="/"><img src="/img/logo.png" alt="logo"/></a></section>
+    <section class="menu"><i class="material-icons md-48">menu</i></section>
+</header>
+<article class="main-container">
+
+    <header class="main-header">Resultater</header>
+
+
+    <div style="padding-bottom: 10px" th:text="'Total forbrug registreret på siden: ' + ${totalConsumption} + ' timer.'"></div>
+
+    <h2>
+        Dit ugentlige streaming forbrug svarer til
+    </h2>
+    <h2 th:text="${consumption} + ' km'"> </h2>
+    <h2>
+        kørt i en nyere diesel bil
+    </h2>
+
+    <div class="results" th:text="${result}"></div>
+    <br>
+    <div th:if="${mobile} != null">
+        <p> Siden sidste uge har du... </p>
+        <p th:text="${mobile}"></p>
+        <p th:text="${music}"></p>
+        <p th:text="${video}"></p>
+        <p th:text="${total}"></p>
+    </div>
+    <br><br><br><br>
+    <a href="/adduser">Opret dig som bruger for at følge dit forbrug</a>
+
+    <a href="/privacy" class="privacyLink">Privacy</a>
+</article>
+
+</body>
+</html>
