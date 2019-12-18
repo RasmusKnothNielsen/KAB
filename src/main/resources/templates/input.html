@@ -17,7 +17,7 @@
 <body>
 
 <header class="top-container">
-    <section class="logo"><img src="/img/logo.png" alt="logo"/></section>
+    <section class="logo"><a href="/"><img src="/img/logo.png" alt="logo"/></a></section>
     <section class="menu"><i class="material-icons md-48">menu</i></section>
 </header>
 <article class="main-container">
@@ -113,10 +113,18 @@
                 inputNode.setAttribute("name", category[1]);
                 inputNode.setAttribute("value", category[2]);
                 inputNode.setAttribute("style", "text-align: right; width: 80px;");
+
                 nodeTDInput.appendChild(inputNode);
 
                 nodeRow.appendChild(nodeTDLabel);
                 nodeRow.appendChild(nodeTDInput);
+
+                var nodeTDText = document.createElement("td");
+                var textNode = document.createElement("span");
+                textNode.innerText="timer";
+                nodeTDText.appendChild(textNode);
+
+                nodeRow.appendChild(nodeTDText);
 
                 nodeTable.appendChild(nodeRow);
             }

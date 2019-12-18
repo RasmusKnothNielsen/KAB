@@ -91,7 +91,7 @@ public class MainController {
 
         consumptionService.connectUserWithSession(user, session);
 
-        return "/adduser";
+        return "/login";
     }
 
     @GetMapping("/results")
